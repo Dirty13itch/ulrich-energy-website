@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  ulrich-energy-website:
+    image: nginx:alpine
+    container_name: ulrich-energy-website
+    ports:
+      - "8088:80"
+    volumes:
+      - ./dist:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./logs/nginx:/var/log/nginx
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - uea-network
+
+  # Optional: Add a reverse proxy for SSL termination
+  # traefik:
+  #   image: traefik:v3.0
+  #   container_name: uea-traefik
+  #   command:
+  #     - "--api.insecure=true"
+  #     - "--providers.docker=true"
+  #     - "--entrypoints.web.address=:80"
+  #     - "--entrypoints.websecure.address=:443"
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #   networks:
+  #     - uea-network
+
+networks:
+  uea-network:
+    driver: bridge

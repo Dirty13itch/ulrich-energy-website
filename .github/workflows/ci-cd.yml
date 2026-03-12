@@ -1,0 +1,285 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    # Run every Monday at 9 AM UTC
+    - cron: '0 9 * * 1'
+
+env:
+  NODE_VERSION: '20'
+  DEPLOY_HOST: 192.168.1.203
+  DEPLOY_PATH: /mnt/docker/ulrich-energy-website
+
+jobs:
+  # ===========================================
+  # Test & Build
+  # ===========================================
+  test:
+    name: Test & Build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ulrich-energy-auditing/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./ulrich-energy-auditing
+        run: npm ci
+
+      - name: Run linter
+        working-directory: ./ulrich-energy-auditing
+        run: npm run lint
+
+      - name: TypeScript type checking
+        working-directory: ./ulrich-energy-auditing
+        run: npm run type-check
+
+      - name: Build Next.js
+        working-directory: ./ulrich-energy-auditing
+        run: npm run build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: ulrich-energy-auditing/dist/
+          retention-days: 7
+
+  # ===========================================
+  # Security Audit
+  # ===========================================
+  security:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        working-directory: ./ulrich-energy-auditing
+        run: npm ci
+
+      - name: Run npm audit
+        working-directory: ./ulrich-energy-auditing
+        run: |
+          npm audit --audit-level moderate || {
+            echo "⚠️ Security vulnerabilities found. Check 'npm audit' output."
+            exit 1
+          }
+
+      - name: Check for secrets (gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+  # ===========================================
+  # Lighthouse CI
+  # ===========================================
+  lighthouse:
+    name: Lighthouse CI
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ulrich-energy-auditing/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./ulrich-energy-auditing
+        run: |
+          npm ci
+          npm install -g @lhci/cli@0.14.x
+
+      - name: Build Next.js
+        working-directory: ./ulrich-energy-auditing
+        run: npm run build
+
+      - name: Run Lighthouse CI
+        working-directory: ./ulrich-energy-auditing
+        run: |
+          lhci autorun --config=../monitoring/lighthouse-ci.js || {
+            echo "⚠️ Lighthouse checks failed"
+            exit 1
+          }
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+      - name: Upload Lighthouse reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-reports
+          path: ulrich-energy-auditing/.lighthouseci/
+          retention-days: 30
+
+  # ===========================================
+  # Deploy (Production)
+  # ===========================================
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [test, lighthouse]
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ulrich-energy-auditing/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./ulrich-energy-auditing
+        run: npm ci
+
+      - name: Build Next.js
+        working-directory: ./ulrich-energy-auditing
+        run: npm run build
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ env.DEPLOY_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to Unraid Server
+        env:
+          SSH_OPTS: '-i ~/.ssh/deploy_key -o StrictHostKeyChecking=no'
+        run: |
+          echo "🚀 Deploying to ${{ env.DEPLOY_HOST }}..."
+          
+          # Backup current deployment
+          echo "📦 Creating backup..."
+          ssh $SSH_OPTS root@${{ env.DEPLOY_HOST }} "
+            if [ -d ${{ env.DEPLOY_PATH }} ]; then
+              BACKUP_DIR=\"${{ env.DEPLOY_PATH }}.backup.\$(date +%Y%m%d_%H%M%S)\"
+              cp -r ${{ env.DEPLOY_PATH }} \"\$BACKUP_DIR\"
+              echo \"✅ Backup created: \$BACKUP_DIR\"
+            fi
+          "
+          
+          # Deploy new files using rsync
+          echo "📤 Syncing files..."
+          rsync -avz --delete \
+            -e "ssh $SSH_OPTS" \
+            ulrich-energy-auditing/dist/ \
+            root@${{ env.DEPLOY_HOST }}:${{ env.DEPLOY_PATH }}/
+          
+          # Set correct permissions
+          ssh $SSH_OPTS root@${{ env.DEPLOY_HOST }} "chmod -R 755 ${{ env.DEPLOY_PATH }}/"
+          
+          # Restart container
+          echo "🔄 Restarting container..."
+          ssh $SSH_OPTS root@${{ env.DEPLOY_HOST }} "docker restart ulrich-energy-website"
+          
+          # Health check
+          echo "🏥 Running health check..."
+          sleep 5
+          for i in 1 2 3; do
+            response=$(curl -s -o /dev/null -w "%{http_code}" http://${{ env.DEPLOY_HOST }}:8088/)
+            if [ "$response" = "200" ]; then
+              echo "✅ Deployment successful! Website is healthy."
+              exit 0
+            fi
+            echo "Attempt $i: HTTP $response, retrying..."
+            sleep 5
+          done
+          
+          echo "❌ Deployment health check failed!"
+          exit 1
+
+      - name: Cleanup old backups
+        if: success()
+        env:
+          SSH_OPTS: '-i ~/.ssh/deploy_key -o StrictHostKeyChecking=no'
+        run: |
+          ssh $SSH_OPTS root@${{ env.DEPLOY_HOST }} "
+            ls -t ${{ env.DEPLOY_PATH }}.backup.* 2>/dev/null | tail -n +11 | xargs rm -rf 2>/dev/null || true
+            echo \"✅ Cleaned up old backups\"
+          "
+
+      - name: Notify on failure
+        if: failure()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          channel: '#website-alerts'
+          webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  # ===========================================
+  # Post-Deploy Verification
+  # ===========================================
+  verify-deploy:
+    name: Post-Deploy Verification
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    
+    steps:
+      - name: Wait for deployment
+        run: sleep 10
+
+      - name: Verify website is accessible
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" http://${{ env.DEPLOY_HOST }}:8088/)
+          if [ "$response" = "200" ]; then
+            echo "✅ Website is accessible (HTTP 200)"
+          else
+            echo "❌ Website returned HTTP $response"
+            exit 1
+          fi
+
+      - name: Check key pages
+        run: |
+          pages=("/" "/about" "/services" "/contact")
+          for page in "${pages[@]}"; do
+            response=$(curl -s -o /dev/null -w "%{http_code}" "http://${{ env.DEPLOY_HOST }}:8088$page")
+            if [ "$response" = "200" ]; then
+              echo "✅ $page is accessible"
+            else
+              echo "❌ $page returned HTTP $response"
+              exit 1
+            fi
+          done
+
+      - name: Run Lighthouse audit on production
+        run: |
+          npm install -g @lhci/cli@0.14.x
+          lhci autorun --config=monitoring/lighthouse-ci.js || true
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
