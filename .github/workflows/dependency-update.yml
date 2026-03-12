@@ -52,7 +52,7 @@ jobs:
           path: update-report.md
 
       - name: Create issue for major updates
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const fs = require('fs');
