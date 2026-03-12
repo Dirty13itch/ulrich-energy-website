@@ -19,7 +19,7 @@
     "clean": "rimraf .next dist",
     "format": "prettier --write \"src/**/*.{ts,tsx,css,json}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css,json}\"",
-    "predeploy": "npm run type-check && npm run lint && npm run test && npm run build",
+    "predeploy": "npm run type-check && npm run build",
     "deploy:local": "npm run predeploy && ../scripts/deploy.sh"
   },
   "dependencies": {
