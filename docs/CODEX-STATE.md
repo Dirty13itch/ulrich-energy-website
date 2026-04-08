@@ -51,6 +51,25 @@ exist to prove runtime behavior, deployment health, and content/proof governance
 - If route expectations change, update `monitoring/runtime-routes.txt` and rerun
   `smoke.ps1` in the same pass.
 
+## PR Follow-Through
+
+- PR `#22` (`chore: tighten smoke route contract`) is still draft/open and should
+  stay parked until the branch baseline is repaired.
+- Live GitHub checks fail before the smoke-contract diff is meaningfully exercised:
+  `npm ci` on Actions hits a React 19 / `@testing-library/react` peer conflict in
+  `ulrich-energy-auditing`.
+- After reproducing the install on a clean worktree and forcing the app checks
+  forward under Node 20, the branch still fails non-diff blockers:
+  - lint reports 43 existing errors across app routes and shared UI files
+  - build fails from missing `@/lib/auth`, `@/lib/rate-limit/middleware`,
+    `@/lib/security/middleware`, and `@/lib/prisma` imports referenced by
+    `ulrich-energy-auditing/middleware.ts`
+  - `smoke.ps1` cannot repro green state on a clean branch because
+    `ulrich-energy-auditing/dist/index.html` is absent and the app does not build
+- Operational stance: treat PR `#22` as a parked contract branch, not a merge
+  candidate, until the broader app baseline is repaired or the smoke change is
+  rebased onto a clean branch.
+
 ## Current Codex Additions
 
 - Root `AGENTS.md` added on 2026-04-08
