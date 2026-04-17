@@ -1,0 +1,18 @@
+# Runtime route contract for smoke, monitoring, and incident tooling
+# Format:
+# GET <path>
+# REDIRECT <path> <expected-location>
+# Smoke also enforces that these routes stay backed by export artifacts,
+# sitemap coverage, or explicit nginx redirect/health rules.
+
+GET /
+GET /services/
+GET /programs/
+GET /programs/energy-star/
+GET /proof/
+GET /resources/
+GET /get-started/
+GET /robots.txt
+GET /sitemap.xml
+GET /health
+REDIRECT /contact/ /get-started/
