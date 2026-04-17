@@ -68,7 +68,7 @@ The Ulrich Energy Auditing website is a modern, static website built with Next.j
 
 ```
 Ulrich Energy Auditing Website/
-├── ulrich-energy-auditing/      # Next.js application
+├── web/      # Next.js application
 │   ├── src/
 │   │   ├── app/                 # App Router pages
 │   │   │   ├── page.tsx         # Home page

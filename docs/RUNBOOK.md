@@ -151,7 +151,7 @@ ssh root@192.168.1.203 "df -h | grep -E '(Filesystem|docker)'"
 
 1. **Lighthouse Performance Audit**
    ```bash
-   cd ulrich-energy-auditing
+   cd web
    npx lighthouse http://192.168.1.203:8088/ --output html --output-path report.html
    ```
 

@@ -138,7 +138,7 @@ ssh root@192.168.1.203 "docker restart ulrich-energy-website"
 **Solution:**
 ```bash
 # Clean and reinstall
-cd ulrich-energy-auditing
+cd web
 rm -rf node_modules .next dist
 npm ci
 
@@ -214,7 +214,7 @@ ssh root@192.168.1.203 "crontab -l | grep health-check"
 
 ### Lighthouse Audit
 ```bash
-cd ulrich-energy-auditing
+cd web
 npx lighthouse http://192.168.1.203:8088/ --output html --output-path report.html
 ```
 
