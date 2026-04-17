@@ -286,7 +286,7 @@ This will:
 
 ```bash
 # Start development
-cd "Ulrich Energy Auditing Website/ulrich-energy-auditing"
+cd "Ulrich Energy Auditing Website/web"
 npm run dev
 
 # Deploy to production

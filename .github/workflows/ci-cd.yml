@@ -34,29 +34,29 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          cache-dependency-path: ulrich-energy-auditing/package-lock.json
+          cache-dependency-path: web/package-lock.json
 
       - name: Install dependencies
-        working-directory: ./ulrich-energy-auditing
+        working-directory: ./web
         run: npm ci
 
       - name: Run linter
-        working-directory: ./ulrich-energy-auditing
+        working-directory: ./web
         run: npm run lint
 
       - name: TypeScript type checking
-        working-directory: ./ulrich-energy-auditing
+        working-directory: ./web
         run: npm run type-check
 
       - name: Build Next.js
-        working-directory: ./ulrich-energy-auditing
+        working-directory: ./web
         run: npm run build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: dist
-          path: ulrich-energy-auditing/dist/
+          path: web/dist/
           retention-days: 7
 
   # ===========================================
@@ -76,11 +76,11 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Install dependencies
-        working-directory: ./ulrich-energy-auditing
+        working-directory: ./web
         run: npm ci
 
       - name: Run npm audit
-        working-directory: ./ulrich-energy-auditing
+        working-directory: ./web
         run: |
           npm audit --audit-level moderate || {
             echo "⚠️ Security vulnerabilities found. Check 'npm audit' output."
@@ -110,20 +110,20 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          cache-dependency-path: ulrich-energy-auditing/package-lock.json
+          cache-dependency-path: web/package-lock.json
 
       - name: Install dependencies
-        working-directory: ./ulrich-energy-auditing
+        working-directory: ./web
         run: |
           npm ci
           npm install -g @lhci/cli@0.14.x
 
       - name: Build Next.js
-        working-directory: ./ulrich-energy-auditing
+        working-directory: ./web
         run: npm run build
 
       - name: Run Lighthouse CI
-        working-directory: ./ulrich-energy-auditing
+        working-directory: ./web
         run: |
           lhci autorun --config=../monitoring/lighthouse-ci.js || {
             echo "⚠️ Lighthouse checks failed"
@@ -137,7 +137,7 @@ jobs:
         if: always()
         with:
           name: lighthouse-reports
-          path: ulrich-energy-auditing/.lighthouseci/
+          path: web/.lighthouseci/
           retention-days: 30
 
   # ===========================================
@@ -158,14 +158,14 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          cache-dependency-path: ulrich-energy-auditing/package-lock.json
+          cache-dependency-path: web/package-lock.json
 
       - name: Install dependencies
-        working-directory: ./ulrich-energy-auditing
+        working-directory: ./web
         run: npm ci
 
       - name: Build Next.js
-        working-directory: ./ulrich-energy-auditing
+        working-directory: ./web
         run: npm run build
 
       - name: Setup SSH
@@ -195,7 +195,7 @@ jobs:
           echo "📤 Syncing files..."
           rsync -avz --delete \
             -e "ssh $SSH_OPTS" \
-            ulrich-energy-auditing/dist/ \
+            web/dist/ \
             root@${{ env.DEPLOY_HOST }}:${{ env.DEPLOY_PATH }}/
           
           # Set correct permissions

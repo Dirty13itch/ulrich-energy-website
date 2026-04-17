@@ -24,7 +24,7 @@
 
 ```
 Ulrich Energy Auditing Website/
-├── ulrich-energy-auditing/          # Next.js application
+├── web/          # Next.js application
 │   ├── src/
 │   │   ├── app/                     # Pages (Next.js App Router)
 │   │   │   ├── page.tsx             # Homepage
@@ -70,7 +70,7 @@ Ulrich Energy Auditing Website/
 
 ```bash
 # Navigate to project
-cd "Ulrich Energy Auditing Website/ulrich-energy-auditing"
+cd "Ulrich Energy Auditing Website/web"
 
 # Install dependencies
 npm ci
@@ -113,7 +113,7 @@ This script will:
 
 ```bash
 # Build
-cd ulrich-energy-auditing
+cd web
 npm ci
 npm run build
 

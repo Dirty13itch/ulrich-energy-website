@@ -39,7 +39,7 @@ pre_deploy_checks() {
     log "Running pre-deployment checks..."
     
     # Check if we're in the right directory
-    if [ ! -f "$PROJECT_DIR/ulrich-energy-auditing/package.json" ]; then
+    if [ ! -f "$PROJECT_DIR/web/package.json" ]; then
         error "package.json not found. Are you in the right directory?"
     fi
     
@@ -61,7 +61,7 @@ pre_deploy_checks() {
 build() {
     log "Building application..."
     
-    cd "$PROJECT_DIR/ulrich-energy-auditing"
+    cd "$PROJECT_DIR/web"
     
     # Clean install dependencies
     npm ci
@@ -84,7 +84,7 @@ build() {
 test() {
     log "Running tests..."
     
-    cd "$PROJECT_DIR/ulrich-energy-auditing"
+    cd "$PROJECT_DIR/web"
     
     # Check for broken links
     if command -v htmltest &> /dev/null; then
@@ -119,11 +119,11 @@ deploy() {
             --exclude='.netlify' \
             --exclude='C:' \
             --exclude='*.txt' \
-            "$PROJECT_DIR/ulrich-energy-auditing/dist/" \
+            "$PROJECT_DIR/web/dist/" \
             "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/"
     else
         # Fallback to scp
-        scp -r "$PROJECT_DIR/ulrich-energy-auditing/dist/"* \
+        scp -r "$PROJECT_DIR/web/dist/"* \
             "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/"
     fi
     

@@ -165,7 +165,7 @@ Ulrich Energy Auditing Website/
 │   ├── content-update.sh
 │   ├── backup.sh
 │   └── ssl-setup.sh
-├── ulrich-energy-auditing/  # Next.js app
+├── web/  # Next.js app
 │   ├── src/                 # Source code
 │   ├── public/              # Static assets
 │   ├── __tests__/           # Unit tests

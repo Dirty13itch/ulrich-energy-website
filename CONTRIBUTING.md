@@ -7,7 +7,7 @@
 ```bash
 # Clone repository
 git clone <repository-url>
-cd "Ulrich Energy Auditing Website/ulrich-energy-auditing"
+cd "Ulrich Energy Auditing Website/web"
 
 # Install dependencies
 npm ci

@@ -6,7 +6,7 @@
 
 set -e
 
-PROJECT_DIR="$(dirname "$(dirname "$(realpath "$0")")")/ulrich-energy-auditing"
+PROJECT_DIR="$(dirname "$(dirname "$(realpath "$0")")")/web"
 DEPLOY_HOST="192.168.1.203"
 DEPLOY_PATH="/mnt/docker/ulrich-energy-website"
 
