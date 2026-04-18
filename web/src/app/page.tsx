@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  Home,
-  Building2,
-  Users,
   Award,
   CheckCircle2,
   ArrowRight,
@@ -13,16 +10,11 @@ import {
   Leaf,
   DollarSign,
   MapPin,
-  TrendingUp,
-  Clock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
   CardIcon,
 } from "@/components/ui/card";
 import { Navbar } from "@/components/navbar";
