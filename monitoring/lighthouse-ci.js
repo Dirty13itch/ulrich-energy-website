@@ -2,12 +2,6 @@ module.exports = {
   ci: {
     collect: {
       staticDistDir: "./dist",
-      url: [
-        "http://localhost/index.html",
-        "http://localhost/about/index.html",
-        "http://localhost/services/index.html",
-        "http://localhost/contact/index.html",
-      ],
       numberOfRuns: 1,
       settings: {
         preset: "desktop",
