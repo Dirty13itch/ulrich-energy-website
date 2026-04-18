@@ -2,21 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   Home,
-  Building2,
   Wind,
-  ShieldCheck,
   DollarSign,
-  FileText,
   Award,
-  Zap,
-  ArrowRight,
   CheckCircle2,
   Phone,
-  Users,
   Leaf,
   BarChart3,
   Thermometer,
-  Lightbulb,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
