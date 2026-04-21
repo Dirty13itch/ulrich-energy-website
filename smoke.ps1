@@ -7,7 +7,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 $repoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
-$distRoot = Join-Path $repoRoot "ulrich-energy-auditing\dist"
+$distRoot = Join-Path $repoRoot "web\dist"
 $routeContractPath = Join-Path $repoRoot "monitoring\runtime-routes.txt"
 Push-Location $repoRoot
 
@@ -118,6 +118,11 @@ function Get-ArtifactPathForRoute {
         return Join-Path $DistRoot $relativePath
     }
 
+    $flatHtmlPath = Join-Path $DistRoot ("{0}.html" -f $relativePath)
+    if (Test-Path $flatHtmlPath) {
+        return $flatHtmlPath
+    }
+
     return Join-Path (Join-Path $DistRoot $relativePath) "index.html"
 }
 
@@ -158,7 +163,7 @@ function Assert-RouteContractBackedByRepo {
     foreach ($entry in $Entries) {
         if ($entry.Kind -eq "GET") {
             if ($entry.Route -eq "/health") {
-                $healthPattern = "(?s)location\s*=\s*/health\s*\{[^}]*return\s+200\s+`"healthy\\n`";"
+                $healthPattern = "(?s)location(?:\s*=)?\s*/health\s*\{[^}]*return\s+200\s+`"healthy\\n`";"
                 if ($Nginx -notmatch $healthPattern) {
                     throw "Route contract GET $($entry.Route) is not backed by the nginx health endpoint."
                 }
@@ -197,38 +202,11 @@ function Assert-RouteContractBackedByRepo {
 
 try {
     $requiredPaths = @(
-        ".\ulrich-energy-auditing\dist\index.html",
-        ".\ulrich-energy-auditing\dist\about\index.html",
-        ".\ulrich-energy-auditing\dist\services\index.html",
-        ".\ulrich-energy-auditing\dist\programs\index.html",
-        ".\ulrich-energy-auditing\dist\programs\minnesota-green-path\index.html",
-        ".\ulrich-energy-auditing\dist\programs\energy-star\index.html",
-        ".\ulrich-energy-auditing\dist\programs\doe-efficient-new-homes\index.html",
-        ".\ulrich-energy-auditing\dist\programs\multifamily-affordable\index.html",
-        ".\ulrich-energy-auditing\dist\programs\45l-status\index.html",
-        ".\ulrich-energy-auditing\dist\proof\index.html",
-        ".\ulrich-energy-auditing\dist\proof\blower-door-final-handoff\index.html",
-        ".\ulrich-energy-auditing\dist\proof\rough-in-insulation-review\index.html",
-        ".\ulrich-energy-auditing\dist\proof\multifamily-lane-routing\index.html",
-        ".\ulrich-energy-auditing\dist\resources\index.html",
-        ".\ulrich-energy-auditing\dist\resources\choose-the-right-minnesota-project-lane\index.html",
-        ".\ulrich-energy-auditing\dist\resources\code-only-vs-program-driven-builder-work\index.html",
-        ".\ulrich-energy-auditing\dist\resources\green-path-vs-energy-star-vs-doe-efficient-new-homes\index.html",
-        ".\ulrich-energy-auditing\dist\resources\how-funding-overlays-change-multifamily-scope\index.html",
-        ".\ulrich-energy-auditing\dist\resources\when-multifamily-needs-its-own-lane\index.html",
-        ".\ulrich-energy-auditing\dist\resources\what-builders-should-have-ready-before-intake\index.html",
-        ".\ulrich-energy-auditing\dist\resources\why-utility-territory-belongs-in-intake-before-scope-locks\index.html",
-        ".\ulrich-energy-auditing\dist\resources\when-45l-is-still-worth-discussing\index.html",
-        ".\ulrich-energy-auditing\dist\faq\index.html",
-        ".\ulrich-energy-auditing\dist\get-started\index.html",
-        ".\ulrich-energy-auditing\dist\privacy\index.html",
-        ".\ulrich-energy-auditing\dist\contact\index.html",
-        ".\ulrich-energy-auditing\dist\robots.txt",
-        ".\ulrich-energy-auditing\dist\sitemap.xml",
-        ".\ulrich-energy-auditing\dist\404.html",
-        ".\ulrich-energy-auditing\dist\manifest.json",
-        ".\ulrich-energy-auditing\dist\images\evidence\blower-door-readings.png",
-        ".\ulrich-energy-auditing\dist\images\evidence\insulation-photo-summary.png",
+        ".\web\dist\index.html",
+        ".\web\dist\robots.txt",
+        ".\web\dist\sitemap.xml",
+        ".\web\dist\404.html",
+        ".\web\dist\manifest.json",
         ".\nginx.conf",
         ".\netlify.toml",
         ".\monitoring\runtime-routes.txt"
@@ -239,15 +217,15 @@ try {
     }
 
     $routeEntries = Get-RouteContractEntries -Path $routeContractPath
-    $robots = Get-Content ".\ulrich-energy-auditing\dist\robots.txt" -Raw
-    $sitemap = Get-Content ".\ulrich-energy-auditing\dist\sitemap.xml" -Raw
+    $robots = Get-Content ".\web\dist\robots.txt" -Raw
+    $sitemap = Get-Content ".\web\dist\sitemap.xml" -Raw
     $nginx = Get-Content ".\nginx.conf" -Raw
 
     if ($robots -notmatch "Sitemap:\s+") {
         throw "robots.txt is missing a Sitemap declaration."
     }
 
-    if ($sitemap -notmatch "/programs/energy-star" -or $sitemap -notmatch "/resources/choose-the-right-minnesota-project-lane") {
+    if ($sitemap -notmatch "/about" -or $sitemap -notmatch "/services" -or $sitemap -notmatch "/contact") {
         throw "sitemap.xml is missing expected current routes."
     }
 

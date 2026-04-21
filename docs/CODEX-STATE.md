@@ -13,10 +13,10 @@ Unraid host as the primary proof surface.
 
 1. Read `AGENTS.md`.
 2. Read `README.md`.
-3. If the task touches runtime, proof, deploys, or recurring review, read:
-   - `docs/ops/README.md`
-   - `docs/ops/RECURRING-OPERATIONS.md`
-   - `docs/ops/OPS-SCORECARD.md`
+3. If the task touches runtime routes, proof, or recurring review, read the repo-local monitoring and smoke surfaces that actually exist:
+   - `monitoring/runtime-routes.txt`
+   - `smoke.ps1`
+   - `docs/RUNBOOK.md`
 4. If the task touches route expectations, read `monitoring/runtime-routes.txt`.
 
 ## Repo Truth

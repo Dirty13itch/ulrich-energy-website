@@ -2,7 +2,7 @@
 
 ## 🌐 Professional Website for Twin Cities HERS Rating Services
 
-**Live Site:** http://192.168.1.203:8088/
+**Live Site:** http://192.168.1.203:8088/ (operational reference, not the repo proof surface)
 
 ---
 
@@ -73,7 +73,7 @@ Ulrich Energy Auditing Website/
 
 - Node.js 20+
 - npm or yarn
-- SSH access to 192.168.1.203 (Unraid server)
+- SSH access to 192.168.1.203 (Unraid server) is only required for production-facing operations, not for repo proof.
 
 ### Local Development
 
@@ -101,6 +101,8 @@ npm run build
 ---
 
 ## 📦 Deployment
+
+Operational note: this section describes live-server procedures. It is not the readiness gate for this repo.
 
 ### Automated Deployment (Recommended)
 
@@ -156,7 +158,6 @@ The project includes GitHub Actions workflows:
    - Runs on every push to main/develop
    - Performs the stable verify lane (`type-check` + `build`)
    - Security scans with npm audit
-   - Automated deployment on main branch
    - Performance budget checks with Lighthouse
 
 2. **Dependency Updates** (`.github/workflows/dependency-update.yml`)
@@ -333,7 +334,7 @@ See [docs/RUNBOOK.md](docs/RUNBOOK.md) for complete troubleshooting guide.
 3. Run repo proof: `powershell -ExecutionPolicy Bypass -File .\scripts\verify-repo-contract.ps1`
 4. Run app proof: `npm --prefix web run verify`
 5. Create PR to `develop` branch
-6. After review, merge to `main` for auto-deployment
+6. After review, merge according to the current release process; do not assume GitHub merge implies production deployment.
 
 ### Commit Messages
 
