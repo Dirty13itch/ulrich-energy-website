@@ -45,6 +45,7 @@ Add-Check -Name 'monitoring/lighthouse-ci.js present' -Passed (Test-Path (Join-P
 Assert-Match -Name 'Next export uses dist/' -Path 'web/next.config.ts' -Pattern "distDir:\s*'dist'" -Detail 'Next.js export stays in web/dist/.'
 Assert-Match -Name 'Docker serves canonical dist path' -Path 'docker-compose.yml' -Pattern '\./web/dist:/usr/share/nginx/html:ro' -Detail 'Docker compose points at web/dist/.'
 Assert-Match -Name 'Deploy script syncs canonical dist path' -Path 'scripts/deploy.sh' -Pattern '\$PROJECT_DIR/web/dist/' -Detail 'Deploy script syncs web/dist/.'
+Assert-Match -Name 'GitHub Actions runs repo contract verifier' -Path '.github/workflows/ci-cd.yml' -Pattern 'powershell\s+-ExecutionPolicy\s+Bypass\s+-File\s+\.\\scripts\\verify-repo-contract\.ps1' -Detail 'Workflow runs the repo-contract verifier before app proof.'
 Assert-Match -Name 'GitHub Actions runs stable verify lane' -Path '.github/workflows/ci-cd.yml' -Pattern 'working-directory:\s*\./web[\s\S]*npm run verify' -Detail 'Workflow uses the stable verify lane from web/.'
 Assert-Match -Name 'GitHub Actions uploads canonical dist path' -Path '.github/workflows/ci-cd.yml' -Pattern 'path:\s*web/dist/' -Detail 'Workflow artifact/deploy path uses web/dist/.'
 Assert-Match -Name 'Netlify publishes canonical dist path' -Path 'netlify.toml' -Pattern 'publish = "web/dist"' -Detail 'Netlify publish path uses web/dist.'

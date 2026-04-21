@@ -45,8 +45,8 @@ pre_deploy_checks() {
     
     # Check Node.js version
     node_version=$(node --version | cut -d'v' -f2 | cut -d'.' -f1)
-    if [ "$node_version" -lt 18 ]; then
-        error "Node.js version 18+ required. Found: $(node --version)"
+    if [ "$node_version" -lt 20 ]; then
+        error "Node.js version 20+ required. Found: $(node --version)"
     fi
     
     # Check if server is reachable
