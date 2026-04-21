@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
 
-const siteUrl = "http://192.168.1.203:8088";
+import { getSiteUrl, getSiteUrlObject } from "@/lib/site";
+
+import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
   title: "Ulrich Energy Auditing | Twin Cities HERS Rater",
   description:
     "Professional HERS rating field services for Twin Cities builders. ENERGY STAR, ZERH certification, IECC compliance, and 45L tax credit documentation. Partner with us for volume new construction.",
-  metadataBase: new URL(siteUrl),
+  metadataBase: getSiteUrlObject(),
   alternates: {
     canonical: "/",
   },
@@ -39,7 +40,7 @@ export const metadata: Metadata = {
     title: "Ulrich Energy Auditing | Twin Cities HERS Rater",
     description:
       "Professional HERS rating field services for Twin Cities builders. ENERGY STAR, ZERH certification, IECC compliance, and 45L tax credit documentation.",
-    url: siteUrl,
+    url: getSiteUrl(),
     siteName: "Ulrich Energy Auditing",
     locale: "en_US",
     type: "website",

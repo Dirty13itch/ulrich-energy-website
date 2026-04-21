@@ -41,8 +41,13 @@ function Assert-Match {
 Add-Check -Name 'AGENTS.md present' -Passed (Test-Path (Join-Path $repoRoot 'AGENTS.md')) -Detail 'Repo-local agent contract exists.'
 Add-Check -Name 'docs/CODEX-STATE.md present' -Passed (Test-Path (Join-Path $repoRoot 'docs/CODEX-STATE.md')) -Detail 'Repo-local Codex state exists.'
 Add-Check -Name 'monitoring/lighthouse-ci.js present' -Passed (Test-Path (Join-Path $repoRoot 'monitoring/lighthouse-ci.js')) -Detail 'Workflow Lighthouse config exists.'
+Add-Check -Name 'Public robots.txt is not hand-maintained' -Passed (-not (Test-Path (Join-Path $repoRoot 'web/public/robots.txt'))) -Detail 'robots.txt should come from web/src/app/robots.ts.'
+Add-Check -Name 'Public sitemap.xml is not hand-maintained' -Passed (-not (Test-Path (Join-Path $repoRoot 'web/public/sitemap.xml'))) -Detail 'sitemap.xml should come from web/src/app/sitemap.ts.'
 
 Assert-Match -Name 'Next export uses dist/' -Path 'web/next.config.ts' -Pattern "distDir:\s*'dist'" -Detail 'Next.js export stays in web/dist/.'
+Assert-Match -Name 'App metadata centralizes site URL' -Path 'web/src/app/layout.tsx' -Pattern 'getSiteUrl(Object)?\(' -Detail 'App metadata reads the canonical site URL from the shared helper.'
+Assert-Match -Name 'Robots route is generated from app metadata' -Path 'web/src/app/robots.ts' -Pattern 'sitemap:\s*`\$\{getSiteUrl\(\)\}/sitemap\.xml`' -Detail 'robots.txt is generated from the shared site URL contract.'
+Assert-Match -Name 'Sitemap route is generated from app metadata' -Path 'web/src/app/sitemap.ts' -Pattern 'MetadataRoute\.Sitemap' -Detail 'sitemap.xml is generated from app metadata instead of a hand-maintained public file.'
 Assert-Match -Name 'Docker serves canonical dist path' -Path 'docker-compose.yml' -Pattern '\./web/dist:/usr/share/nginx/html:ro' -Detail 'Docker compose points at web/dist/.'
 Assert-Match -Name 'Deploy script syncs canonical dist path' -Path 'scripts/deploy.sh' -Pattern '\$PROJECT_DIR/web/dist/' -Detail 'Deploy script syncs web/dist/.'
 Assert-Match -Name 'GitHub Actions runs repo contract verifier' -Path '.github/workflows/ci-cd.yml' -Pattern 'pwsh\s+-ExecutionPolicy\s+Bypass\s+-File\s+\.\\scripts\\verify-repo-contract\.ps1' -Detail 'Workflow runs the repo-contract verifier before app proof.'
