@@ -156,7 +156,7 @@ The project includes GitHub Actions workflows:
 
 1. **CI/CD Pipeline** (`.github/workflows/ci-cd.yml`)
    - Runs on every push to main/develop
-   - Performs the stable verify lane (`type-check` + `build`)
+  - Performs the stable verify lane (`clean` + `type-check` + `build`)
    - Security scans with npm audit
    - Performance budget checks with Lighthouse
 

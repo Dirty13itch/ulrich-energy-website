@@ -62,6 +62,7 @@ Assert-Match -Name 'GitHub Actions uploads canonical dist path' -Path '.github/w
 Assert-Match -Name 'Netlify publishes canonical dist path' -Path 'netlify.toml' -Pattern 'publish = "web/dist"' -Detail 'Netlify publish path uses web/dist.'
 Assert-Match -Name 'Netlify builds app from source root' -Path 'netlify.toml' -Pattern 'npm --prefix web ci && npm --prefix web run build' -Detail 'Netlify build command runs from web/.'
 Assert-Match -Name 'Netlify exports public site URL' -Path 'netlify.toml' -Pattern 'NEXT_PUBLIC_SITE_URL = "https://ulrichenergyauditing\.com"' -Detail 'Netlify build surface provides the canonical public site URL.'
+Assert-Match -Name 'Nginx error pages resolve to exported artifacts' -Path 'nginx.conf' -Pattern 'error_page 404 /404\.html;\s*error_page 500 502 503 504 /404\.html;' -Detail 'Nginx error-page targets must resolve to an exported artifact that exists after the stable build lane.'
 Assert-Match -Name 'Playwright proof is local' -Path 'web/playwright.config.ts' -Pattern "baseURL:\s*'http://127\.0\.0\.1:3000'" -Detail 'Playwright base URL is local.'
 Assert-Match -Name 'Playwright web server is local' -Path 'web/playwright.config.ts' -Pattern "url:\s*'http://127\.0\.0\.1:3000'" -Detail 'Playwright preview server is local.'
 

@@ -1,6 +1,6 @@
 # CODEX-STATE
 
-Last updated: 2026-04-20
+Last updated: 2026-04-21
 
 ## Purpose
 
@@ -49,6 +49,7 @@ Unraid host as the primary proof surface.
 - `web/src/app/robots.ts` and `web/src/app/sitemap.ts` should generate SEO artifacts from the shared site-url helper instead of hand-maintained `web/public` files.
 - `web/src/app/sitemap.ts` should keep a stable `lastModified` timestamp so exported sitemap artifacts stay deterministic across proof runs.
 - `web/public/manifest.json` and `web/src/app/layout.tsx` should both reference `web/public/favicon.svg` so exported app icons do not 404.
+- `nginx.conf` error-page targets should resolve to an artifact the stable export actually produces; use `/404.html` unless the repo starts generating a dedicated `50x.html`.
 - `monitoring/lighthouse-ci.js` must exist because CI references it directly.
 
 ## Smoke Contract

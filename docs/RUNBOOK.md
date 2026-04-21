@@ -7,6 +7,7 @@
 - Stable repo proof is:
   - `powershell -ExecutionPolicy Bypass -File .\scripts\verify-repo-contract.ps1`
   - `npm --prefix web run verify`
+- The stable verify lane rebuilds from a clean export directory (`clean` + `type-check` + `build`); do not shorten it when validating repo readiness.
 - Live Unraid procedures below are not the readiness gate for this repo and should only be used when Shaun explicitly wants production-facing operations.
 
 ## Quick Reference
