@@ -3,23 +3,23 @@
 ## Ulrich Energy Auditing Website - World's Greatest Continuous Improvement System
 
 **Completion Date:** March 11, 2025  
-**Status:** ✅ COMPLETE
+**Status:** Historical snapshot from March 11, 2025. See `docs/CODEX-STATE.md` for current repo truth.
 
 ---
 
 ## 📊 Executive Summary
 
-The Ulrich Energy Auditing website now features a **complete, production-ready continuous improvement system** with automated CI/CD, comprehensive monitoring, security hardening, and extensive documentation.
+This document records the original completion snapshot. Current autonomous execution should use `AGENTS.md` and `docs/CODEX-STATE.md`, which now define the stable readiness contract and note that legacy ESLint, Jest, and Playwright coverage is still non-gating backlog.
 
 ### Key Metrics
 | Metric | Status |
 |--------|--------|
-| Build Success | ✅ Passing |
-| TypeScript | ✅ No errors |
+| Build Success | Historical |
+| TypeScript | Historical |
 | Git Repository | ✅ Initialized with 2 commits |
 | Documentation | ✅ Complete |
 | Automation Scripts | ✅ 7 scripts created |
-| CI/CD Pipeline | ✅ Configured |
+| CI/CD Pipeline | Historical |
 | Monitoring | ✅ Ready for activation |
 
 ---

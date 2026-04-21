@@ -60,6 +60,15 @@ Ulrich Energy Auditing Website/
 
 ## 🚀 Quick Start
 
+## Repo Status
+
+- Canonical source lives in `web/`.
+- Canonical static export lives in `web/dist/`.
+- Stable local proof is:
+  - `powershell -ExecutionPolicy Bypass -File .\scripts\verify-repo-contract.ps1`
+  - `npm --prefix web run verify`
+- Legacy ESLint, Jest, and Playwright assets still exist, but they are not the readiness gate until their stale assertions are cleaned up.
+
 ### Prerequisites
 
 - Node.js 20+
@@ -321,8 +330,8 @@ See [docs/RUNBOOK.md](docs/RUNBOOK.md) for complete troubleshooting guide.
 
 1. Create feature branch: `git checkout -b feature/name`
 2. Make changes
-3. Run tests: `npm run test`
-4. Build: `npm run build`
+3. Run repo proof: `powershell -ExecutionPolicy Bypass -File .\scripts\verify-repo-contract.ps1`
+4. Run app proof: `npm --prefix web run verify`
 5. Create PR to `develop` branch
 6. After review, merge to `main` for auto-deployment
 

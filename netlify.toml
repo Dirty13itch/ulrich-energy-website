@@ -1,6 +1,6 @@
 [build]
-  publish = "."
-  command = "echo 'Static export already built'"
+  publish = "web/dist"
+  command = "npm --prefix web ci && npm --prefix web run build"
 
 [build.environment]
   NETLIFY_NEXT_PLUGIN_SKIP = "true"
