@@ -39,7 +39,8 @@ jobs:
         run: npm ci
 
       - name: Verify repo contract
-        run: powershell -ExecutionPolicy Bypass -File .\scripts\verify-repo-contract.ps1
+        shell: pwsh
+        run: pwsh -ExecutionPolicy Bypass -File .\scripts\verify-repo-contract.ps1
 
       - name: Run stable verify lane
         working-directory: ./web
