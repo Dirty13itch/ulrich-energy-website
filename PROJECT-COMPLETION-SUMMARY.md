@@ -42,7 +42,7 @@ This document records the original completion snapshot. Current autonomous execu
 | CI/CD Pipeline | Test, build, deploy | `.github/workflows/ci-cd.yml` |
 | Dependency Updates | Weekly updates | `.github/workflows/dependency-update.yml` |
 
-**Features:**
+**Features at original snapshot:**
 - ✅ Automated testing on push/PR
 - ✅ Lighthouse CI performance budgets (90+ required)
 - ✅ Security scanning (npm audit, gitleaks)
@@ -67,6 +67,8 @@ This document records the original completion snapshot. Current autonomous execu
 | Unit Tests | Jest | `__tests__/**/*.test.ts(x)` |
 | E2E Tests | Playwright | `e2e/**/*.spec.ts` |
 | Performance | Lighthouse CI | `monitoring/lighthouse-ci.js` |
+
+Current readiness note: these legacy suites remain in the repo, but the stable autonomous proof lane is now `scripts/verify-repo-contract.ps1` plus `npm --prefix web run verify`.
 
 **Test Files Created:**
 - `__tests__/utils.test.ts` - Utility function tests
@@ -383,7 +385,7 @@ To fully activate the system, complete these one-time setup tasks:
 
 ---
 
-**The World's Greatest Continuous Improvement System is now COMPLETE and ready for production use.**
+**Treat this document as archive context, not live readiness truth.**
 
 *Built with ❤️ for Twin Cities builders*
 
