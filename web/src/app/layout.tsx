@@ -20,6 +20,10 @@ export const metadata: Metadata = {
   description:
     "Professional HERS rating field services for Twin Cities builders. ENERGY STAR, ZERH certification, IECC compliance, and 45L tax credit documentation. Partner with us for volume new construction.",
   metadataBase: getSiteUrlObject(),
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+  },
   alternates: {
     canonical: "/",
   },
