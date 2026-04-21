@@ -1,4 +1,4 @@
-const defaultSiteUrl = "http://192.168.1.203:8088";
+const defaultSiteUrl = "https://ulrichenergyauditing.com";
 
 function normalizeSiteUrl(rawSiteUrl: string): string {
   return rawSiteUrl.trim().replace(/\/+$/, "");

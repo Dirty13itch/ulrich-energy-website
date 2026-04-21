@@ -26,6 +26,7 @@ Unraid host as the primary proof surface.
 - Root-level exported HTML and `_next/` snapshots are reference-only output.
 - `web/src/lib/site.ts` owns the canonical site-origin contract used by metadata, `robots.txt`, and `sitemap.xml`.
 - `web/public/robots.txt` and `web/public/sitemap.xml` should stay absent; those SEO artifacts are generated from `web/src/app`.
+- The canonical public origin is `https://ulrichenergyauditing.com`; local Unraid URLs remain operational references, not SEO defaults.
 - Canonical repo proof surfaces are:
   - `powershell -ExecutionPolicy Bypass -File .\scripts\verify-repo-contract.ps1`
   - `npm --prefix web run verify`
@@ -42,6 +43,7 @@ Unraid host as the primary proof surface.
 
 - `docker-compose.yml`, `scripts/deploy.sh`, and `.github/workflows/ci-cd.yml` should reference `web/dist/`.
 - `netlify.toml` should publish `web/dist` and build from `web/`.
+- `netlify.toml` should also export `NEXT_PUBLIC_SITE_URL=https://ulrichenergyauditing.com` so generated SEO metadata does not fall back to the LAN host.
 - `web/playwright.config.ts` should target a local preview server, not the live Unraid host.
 - `web/src/app/robots.ts` and `web/src/app/sitemap.ts` should generate SEO artifacts from the shared site-url helper instead of hand-maintained `web/public` files.
 - `monitoring/lighthouse-ci.js` must exist because CI references it directly.

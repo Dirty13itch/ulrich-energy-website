@@ -46,6 +46,7 @@ Add-Check -Name 'Public sitemap.xml is not hand-maintained' -Passed (-not (Test-
 
 Assert-Match -Name 'Next export uses dist/' -Path 'web/next.config.ts' -Pattern "distDir:\s*'dist'" -Detail 'Next.js export stays in web/dist/.'
 Assert-Match -Name 'App metadata centralizes site URL' -Path 'web/src/app/layout.tsx' -Pattern 'getSiteUrl(Object)?\(' -Detail 'App metadata reads the canonical site URL from the shared helper.'
+Assert-Match -Name 'Site URL helper defaults to public origin' -Path 'web/src/lib/site.ts' -Pattern 'https://ulrichenergyauditing\.com' -Detail 'Shared site-url helper defaults to the public canonical origin.'
 Assert-Match -Name 'Robots route is generated from app metadata' -Path 'web/src/app/robots.ts' -Pattern 'sitemap:\s*`\$\{getSiteUrl\(\)\}/sitemap\.xml`' -Detail 'robots.txt is generated from the shared site URL contract.'
 Assert-Match -Name 'Sitemap route is generated from app metadata' -Path 'web/src/app/sitemap.ts' -Pattern 'MetadataRoute\.Sitemap' -Detail 'sitemap.xml is generated from app metadata instead of a hand-maintained public file.'
 Assert-Match -Name 'Docker serves canonical dist path' -Path 'docker-compose.yml' -Pattern '\./web/dist:/usr/share/nginx/html:ro' -Detail 'Docker compose points at web/dist/.'
@@ -55,6 +56,7 @@ Assert-Match -Name 'GitHub Actions runs stable verify lane' -Path '.github/workf
 Assert-Match -Name 'GitHub Actions uploads canonical dist path' -Path '.github/workflows/ci-cd.yml' -Pattern 'path:\s*web/dist/' -Detail 'Workflow artifact/deploy path uses web/dist/.'
 Assert-Match -Name 'Netlify publishes canonical dist path' -Path 'netlify.toml' -Pattern 'publish = "web/dist"' -Detail 'Netlify publish path uses web/dist.'
 Assert-Match -Name 'Netlify builds app from source root' -Path 'netlify.toml' -Pattern 'npm --prefix web ci && npm --prefix web run build' -Detail 'Netlify build command runs from web/.'
+Assert-Match -Name 'Netlify exports public site URL' -Path 'netlify.toml' -Pattern 'NEXT_PUBLIC_SITE_URL = "https://ulrichenergyauditing\.com"' -Detail 'Netlify build surface provides the canonical public site URL.'
 Assert-Match -Name 'Playwright proof is local' -Path 'web/playwright.config.ts' -Pattern "baseURL:\s*'http://127\.0\.0\.1:3000'" -Detail 'Playwright base URL is local.'
 Assert-Match -Name 'Playwright web server is local' -Path 'web/playwright.config.ts' -Pattern "url:\s*'http://127\.0\.0\.1:3000'" -Detail 'Playwright preview server is local.'
 
