@@ -37,7 +37,7 @@ Unraid host as the primary proof surface.
 - Repo-local contract added in `AGENTS.md`.
 - Machine-checkable contract lane added in `scripts/verify-repo-contract.ps1`.
 - Local Lighthouse config exists at `monitoring/lighthouse-ci.js`.
-- Stable local proof currently means contract alignment plus `npm --prefix web run verify` (`type-check` + `build`).
+- Stable local proof currently means contract alignment plus `npm --prefix web run verify` (`clean` + `type-check` + `build`).
 - Legacy ESLint, Jest, and Playwright assets still exist, but they are not yet clean enough to gate readiness work.
 
 ## Current Expectations
@@ -47,6 +47,7 @@ Unraid host as the primary proof surface.
 - `netlify.toml` should also export `NEXT_PUBLIC_SITE_URL=https://ulrichenergyauditing.com` so generated SEO metadata does not fall back to the LAN host.
 - `web/playwright.config.ts` should target a local preview server, not the live Unraid host.
 - `web/src/app/robots.ts` and `web/src/app/sitemap.ts` should generate SEO artifacts from the shared site-url helper instead of hand-maintained `web/public` files.
+- `web/src/app/sitemap.ts` should keep a stable `lastModified` timestamp so exported sitemap artifacts stay deterministic across proof runs.
 - `web/public/manifest.json` and `web/src/app/layout.tsx` should both reference `web/public/favicon.svg` so exported app icons do not 404.
 - `monitoring/lighthouse-ci.js` must exist because CI references it directly.
 
