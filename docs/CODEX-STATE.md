@@ -50,6 +50,7 @@ Unraid host as the primary proof surface.
 - `web/src/app/sitemap.ts` should keep a stable `lastModified` timestamp so exported sitemap artifacts stay deterministic across proof runs.
 - `web/public/manifest.json` and `web/src/app/layout.tsx` should both reference `web/public/favicon.svg` so exported app icons do not 404.
 - `nginx.conf` error-page targets should resolve to an artifact the stable export actually produces; use `/404.html` unless the repo starts generating a dedicated `50x.html`.
+- `nginx.conf` should emit the same COOP and CORP headers that `smoke.ps1` enforces during live-route header checks.
 - `monitoring/lighthouse-ci.js` must exist because CI references it directly.
 
 ## Smoke Contract
