@@ -12,11 +12,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardIcon,
-} from "@/components/ui/card";
+import { Card, CardContent, CardIcon } from "@/components/ui/card";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 
@@ -103,15 +99,13 @@ export default function HomePage() {
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
-      
-      {/* Skip to main content link for accessibility */}
+
       <a href="#main-content" className="skip-link">
         Skip to main content
       </a>
 
       <main id="main-content" className="flex-1">
-        {/* Hero Section */}
-        <section 
+        <section
           className="relative bg-gradient-to-br from-[#214293] to-[#0f2654] py-20 lg:py-28"
           aria-labelledby="hero-heading"
         >
@@ -123,7 +117,7 @@ export default function HomePage() {
               <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-[#90C050]">
                 Builder Partnership Specialists
               </p>
-              <h1 
+              <h1
                 id="hero-heading"
                 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl"
               >
@@ -131,15 +125,15 @@ export default function HomePage() {
                 <span className="text-[#90C050]">Projects Moving</span>
               </h1>
               <p className="mt-6 text-lg leading-relaxed text-[#DDE9FF]">
-                Professional energy inspection services for Twin Cities builders. From ENERGY STAR 
-                certification to 45L tax credit documentation—we handle the energy code so you can 
+                Professional energy inspection services for Twin Cities builders. From ENERGY STAR
+                certification to 45L tax credit documentation - we handle the energy code so you can
                 focus on building.
               </p>
-              <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="mt-8 flex flex-col gap-4 justify-center sm:flex-row">
                 <Button
                   asChild
                   size="lg"
-                  className="bg-[#90C050] text-[#0f2654] hover:bg-[#7db043] font-semibold"
+                  className="bg-[#90C050] font-semibold text-[#0f2654] hover:bg-[#7db043]"
                 >
                   <Link href="/contact">
                     <Phone className="mr-2 h-5 w-5" aria-hidden="true" />
@@ -162,12 +156,10 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Stats Section */}
-        <section 
-          className="py-12 bg-[#ECFFCF]"
-          aria-labelledby="stats-heading"
-        >
-          <h2 id="stats-heading" className="sr-only">Company Statistics</h2>
+        <section className="bg-[#ECFFCF] py-12" aria-labelledby="stats-heading">
+          <h2 id="stats-heading" className="sr-only">
+            Company Statistics
+          </h2>
           <div className="container-site">
             <div className="grid gap-8 md:grid-cols-3">
               {stats.map((stat) => (
@@ -181,36 +173,32 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Services Preview */}
-        <section 
-          className="py-16 lg:py-20 bg-[#FEFFF8]"
-          aria-labelledby="services-heading"
-        >
+        <section className="bg-[#FEFFF8] py-16 lg:py-20" aria-labelledby="services-heading">
           <div className="container-site">
-            <div className="mx-auto max-w-4xl text-center mb-12">
+            <div className="mx-auto mb-12 max-w-4xl text-center">
               <h2 id="services-heading" className="text-3xl font-bold text-[#0f2654]">
                 Comprehensive Energy Inspection Services
               </h2>
               <p className="mt-4 text-lg text-[#4a4a4a]">
-                From pre-drywall to final certification, we handle every aspect of energy code 
+                From pre-drywall to final certification, we handle every aspect of energy code
                 compliance and certification.
               </p>
             </div>
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               {services.map((service) => (
-                <Card key={service.title} className="h-full flex flex-col">
-                  <CardContent className="pt-6 flex-1">
+                <Card key={service.title} className="flex h-full flex-col">
+                  <CardContent className="flex-1 pt-6">
                     <CardIcon>
                       <service.icon className="h-6 w-6 text-[#214293]" aria-hidden="true" />
                     </CardIcon>
-                    <h3 className="text-lg font-semibold text-[#0f2654] mb-2">{service.title}</h3>
-                    <p className="text-sm text-[#4a4a4a] mb-4">{service.description}</p>
+                    <h3 className="mb-2 text-lg font-semibold text-[#0f2654]">{service.title}</h3>
+                    <p className="mb-4 text-sm text-[#4a4a4a]">{service.description}</p>
                   </CardContent>
                   <CardContent className="pt-0">
                     <Link
                       href={service.href}
-                      className="inline-flex items-center text-sm font-semibold text-[#214293] hover:text-[#90C050] transition-colors"
+                      className="inline-flex items-center text-sm font-semibold text-[#214293] transition-colors hover:text-[#90C050]"
                     >
                       Learn more
                       <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
@@ -231,26 +219,22 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Why Choose Us */}
-        <section 
-          className="py-16 lg:py-20 bg-white"
-          aria-labelledby="why-heading"
-        >
+        <section className="bg-white py-16 lg:py-20" aria-labelledby="why-heading">
           <div className="container-site">
-            <div className="mx-auto max-w-4xl text-center mb-12">
+            <div className="mx-auto mb-12 max-w-4xl text-center">
               <h2 id="why-heading" className="text-3xl font-bold text-[#0f2654]">
                 Why Builders Choose Ulrich Energy Auditing
               </h2>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
+            <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">
               {whyChooseUs.map((item, index) => (
                 <div key={index} className="flex gap-4">
                   <div className="flex-shrink-0">
                     <CheckCircle2 className="h-6 w-6 text-[#90C050]" aria-hidden="true" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-[#0f2654] mb-1">{item.title}</h3>
+                    <h3 className="mb-1 font-semibold text-[#0f2654]">{item.title}</h3>
                     <p className="text-sm text-[#4a4a4a]">{item.description}</p>
                   </div>
                 </div>
@@ -259,37 +243,33 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Tax Credits Highlight */}
-        <section 
-          className="py-16 lg:py-20 bg-[#214293]"
-          aria-labelledby="tax-credit-heading"
-        >
+        <section className="bg-[#214293] py-16 lg:py-20" aria-labelledby="tax-credit-heading">
           <div className="container-site">
             <div className="mx-auto max-w-4xl text-center">
-              <DollarSign className="h-12 w-12 text-[#90C050] mx-auto mb-4" aria-hidden="true" />
-              <h2 id="tax-credit-heading" className="text-3xl font-bold text-white mb-4">
+              <DollarSign className="mx-auto mb-4 h-12 w-12 text-[#90C050]" aria-hidden="true" />
+              <h2 id="tax-credit-heading" className="mb-4 text-3xl font-bold text-white">
                 Maximize Your 45L Tax Credits
               </h2>
-              <p className="text-lg text-[#DDE9FF] mb-8">
-                We prepare complete documentation packages to help builders claim 
-                federal tax credits of $2,500 to $5,000 per home.
+              <p className="mb-8 text-lg text-[#DDE9FF]">
+                We prepare complete documentation packages to help builders claim federal tax credits
+                of $2,500 to $5,000 per home.
               </p>
-              <div className="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto mb-8">
-                <div className="bg-white/10 rounded-lg p-6">
-                  <div className="text-3xl font-bold text-[#90C050] mb-2">$2,500</div>
-                  <div className="text-white font-semibold">ENERGY STAR Certified</div>
+              <div className="mx-auto mb-8 grid max-w-2xl gap-6 sm:grid-cols-2">
+                <div className="rounded-lg bg-white/10 p-6">
+                  <div className="mb-2 text-3xl font-bold text-[#90C050]">$2,500</div>
+                  <div className="font-semibold text-white">ENERGY STAR Certified</div>
                   <div className="text-sm text-[#DDE9FF]">Per single-family home</div>
                 </div>
-                <div className="bg-white/10 rounded-lg p-6">
-                  <div className="text-3xl font-bold text-[#90C050] mb-2">$5,000</div>
-                  <div className="text-white font-semibold">ZERH Certified</div>
+                <div className="rounded-lg bg-white/10 p-6">
+                  <div className="mb-2 text-3xl font-bold text-[#90C050]">$5,000</div>
+                  <div className="font-semibold text-white">ZERH Certified</div>
                   <div className="text-sm text-[#DDE9FF]">Per single-family home</div>
                 </div>
               </div>
               <Button
                 asChild
                 size="lg"
-                className="bg-[#90C050] text-[#0f2654] hover:bg-[#7db043] font-semibold"
+                className="bg-[#90C050] font-semibold text-[#0f2654] hover:bg-[#7db043]"
               >
                 <Link href="/services">
                   Learn About Tax Credits
@@ -300,14 +280,10 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Service Area */}
-        <section 
-          className="py-16 lg:py-20 bg-[#FEFFF8]"
-          aria-labelledby="service-area-heading"
-        >
+        <section className="bg-[#FEFFF8] py-16 lg:py-20" aria-labelledby="service-area-heading">
           <div className="container-site">
-            <div className="mx-auto max-w-4xl text-center mb-12">
-              <MapPin className="h-10 w-10 text-[#214293] mx-auto mb-4" aria-hidden="true" />
+            <div className="mx-auto mb-12 max-w-4xl text-center">
+              <MapPin className="mx-auto mb-4 h-10 w-10 text-[#214293]" aria-hidden="true" />
               <h2 id="service-area-heading" className="text-3xl font-bold text-[#0f2654]">
                 Twin Cities Service Area
               </h2>
@@ -316,17 +292,26 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 max-w-4xl mx-auto">
+            <div className="mx-auto grid max-w-4xl gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {[
-                "Minneapolis", "St. Paul", "Bloomington", "Edina",
-                "Eden Prairie", "Plymouth", "Maple Grove", "Woodbury",
-                "Eagan", "Lakeville", "Burnsville", "Apple Valley",
-                "Minnetonka", "St. Louis Park", "Brooklyn Park", "Coon Rapids",
+                "Minneapolis",
+                "St. Paul",
+                "Bloomington",
+                "Edina",
+                "Eden Prairie",
+                "Plymouth",
+                "Maple Grove",
+                "Woodbury",
+                "Eagan",
+                "Lakeville",
+                "Burnsville",
+                "Apple Valley",
+                "Minnetonka",
+                "St. Louis Park",
+                "Brooklyn Park",
+                "Coon Rapids",
               ].map((city) => (
-                <div
-                  key={city}
-                  className="flex items-center gap-2 text-[#4a4a4a]"
-                >
+                <div key={city} className="flex items-center gap-2 text-[#4a4a4a]">
                   <CheckCircle2 className="h-4 w-4 text-[#90C050]" aria-hidden="true" />
                   <span>{city}</span>
                 </div>
@@ -335,25 +320,21 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section 
-          className="py-16 lg:py-20 bg-white"
-          aria-labelledby="cta-heading"
-        >
+        <section className="bg-white py-16 lg:py-20" aria-labelledby="cta-heading">
           <div className="container-site">
             <div className="mx-auto max-w-4xl text-center">
-              <h2 id="cta-heading" className="text-3xl font-bold text-[#0f2654] mb-4">
+              <h2 id="cta-heading" className="mb-4 text-3xl font-bold text-[#0f2654]">
                 Ready to Partner on Your Next Community?
               </h2>
-              <p className="text-lg text-[#4a4a4a] mb-8">
-                Whether you're building 10 homes or 100, we have the capacity, expertise, 
-                and systems to support your project from pre-construction through final certification.
+              <p className="mb-8 text-lg text-[#4a4a4a]">
+                Whether you're building 10 homes or 100, we have the capacity, expertise, and
+                systems to support your project from pre-construction through final certification.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="flex flex-col gap-4 justify-center sm:flex-row">
                 <Button
                   asChild
                   size="lg"
-                  className="bg-[#90C050] text-[#0f2654] hover:bg-[#7db043] font-semibold"
+                  className="bg-[#90C050] font-semibold text-[#0f2654] hover:bg-[#7db043]"
                 >
                   <Link href="/contact">
                     <Phone className="mr-2 h-5 w-5" aria-hidden="true" />
@@ -366,9 +347,7 @@ export default function HomePage() {
                   variant="outline"
                   className="border-[#214293] text-[#214293] hover:bg-[#214293]/10"
                 >
-                  <Link href="/services">
-                    Explore Services
-                  </Link>
+                  <Link href="/services">Explore Services</Link>
                 </Button>
               </div>
             </div>

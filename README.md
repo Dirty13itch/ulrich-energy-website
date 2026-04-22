@@ -1,365 +1,91 @@
 # Ulrich Energy Auditing Website
 
-## 🌐 Professional Website for Twin Cities HERS Rating Services
+Professional website for Twin Cities HERS rating and energy inspection services.
 
-**Live Site:** http://192.168.1.203:8088/ (operational reference, not the repo proof surface)
-
----
-
-## 🏗️ Architecture
-
-### Tech Stack
-
-| Layer | Technology |
-|-------|------------|
-| **Framework** | Next.js 16 (App Router) |
-| **Language** | TypeScript 5 |
-| **Styling** | Tailwind CSS 4 |
-| **UI Components** | Custom + shadcn/ui |
-| **Icons** | Lucide React |
-| **Fonts** | Geist Sans/Mono |
-| **Hosting** | Docker (nginx:alpine) on Unraid |
-
-### Project Structure
-
-```
-Ulrich Energy Auditing Website/
-├── web/          # Next.js application
-│   ├── src/
-│   │   ├── app/                     # Pages (Next.js App Router)
-│   │   │   ├── page.tsx             # Homepage
-│   │   │   ├── about/page.tsx       # About page
-│   │   │   ├── services/page.tsx    # Services page
-│   │   │   ├── contact/page.tsx     # Contact page
-│   │   │   ├── layout.tsx           # Root layout
-│   │   │   └── globals.css          # Global styles
-│   │   ├── components/
-│   │   │   ├── ui/                  # Reusable UI components
-│   │   │   ├── navbar.tsx           # Navigation
-│   │   │   └── footer.tsx           # Footer
-│   │   └── lib/
-│   │       └── utils.ts             # Utility functions
-│   ├── public/                      # Static assets
-│   ├── package.json
-│   ├── next.config.ts
-│   └── tsconfig.json
-├── scripts/                         # Automation scripts
-│   ├── deploy.sh                    # Deployment script
-│   ├── health-check.sh              # Monitoring
-│   └── content-update.sh            # Content management
-├── .github/workflows/               # CI/CD pipelines
-│   ├── ci-cd.yml                    # Main CI/CD
-│   └── dependency-update.yml        # Automated updates
-├── docs/
-│   └── RUNBOOK.md                   # Operations guide
-├── nginx.conf                       # Web server config
-└── README.md                        # This file
-```
-
----
-
-## 🚀 Quick Start
-
-## Repo Status
+## Current Repo Truth
 
 - Canonical source lives in `web/`.
 - Canonical static export lives in `web/dist/`.
-- Stable local proof is:
-  - `powershell -ExecutionPolicy Bypass -File .\scripts\verify-repo-contract.ps1`
-  - `npm --prefix web run verify`
-- Legacy ESLint, Jest, and Playwright assets still exist, but they are not the readiness gate until their stale assertions are cleaned up.
+- Root-level exported HTML and `_next/` snapshots are reference-only output.
+- Canonical public origin is `https://ulrichenergyauditing.com`.
+- The LAN host `http://192.168.1.203:8088/` is an operational reference only, not repo proof.
 
-### Prerequisites
+## Stable Proof Lane
 
-- Node.js 20+
-- npm or yarn
-- SSH access to 192.168.1.203 (Unraid server) is only required for production-facing operations, not for repo proof.
+Use these commands before claiming readiness:
 
-### Local Development
-
-```bash
-# Navigate to project
-cd "Ulrich Energy Auditing Website/web"
-
-# Install dependencies
-npm ci
-
-# Start development server
-npm run dev
-
-# Open http://localhost:3000
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\verify-repo-contract.ps1
+npm --prefix web run verify
 ```
 
-### Build for Production
+Current readiness note:
 
-```bash
-npm run build
+- `verify-repo-contract.ps1` is the machine-checkable repo contract gate.
+- `npm --prefix web run verify` is the stable app proof lane (`clean`, `type-check`, `build`).
+- Legacy ESLint, Jest, and Playwright assets still exist, but they are not the readiness gate.
 
-# Output in dist/ directory
-```
+## Local Development
 
----
-
-## 📦 Deployment
-
-Operational note: this section describes live-server procedures. It is not the readiness gate for this repo.
-
-### Automated Deployment (Recommended)
-
-```bash
-# From project root
-cd "Ulrich Energy Auditing Website"
-./scripts/deploy.sh
-```
-
-This script will:
-1. ✅ Run TypeScript checks
-2. ✅ Build the application
-3. ✅ Create backup of current deployment
-4. ✅ Deploy to Unraid server
-5. ✅ Run smoke tests
-6. ✅ Clean up old backups
-
-### Manual Deployment
-
-```bash
-# Build
+```powershell
 cd web
 npm ci
+npm run dev
+```
+
+Open `http://localhost:3000`.
+
+## Build Output
+
+```powershell
+cd web
 npm run build
-
-# Deploy
-scp -r dist/* root@192.168.1.203:/mnt/docker/ulrich-energy-website/
-ssh root@192.168.1.203 "docker restart ulrich-energy-website"
 ```
 
-### Rollback
+The static export is written to `web/dist/`.
 
-```bash
-# Using deploy script
-./scripts/deploy.sh rollback
+## Architecture
 
-# Or manually
-ssh root@192.168.1.203
-cp -r /mnt/docker/ulrich-energy-website.backup.YYYYMMDD_HHMMSS/* \
-      /mnt/docker/ulrich-energy-website/
-docker restart ulrich-energy-website
-```
+| Layer | Technology |
+|-------|------------|
+| Framework | Next.js 16 App Router |
+| Language | TypeScript 5 |
+| Styling | Tailwind CSS 4 |
+| UI | Custom components plus shadcn/ui |
+| Icons | Lucide React |
+| Hosting Surface | nginx container on Unraid |
 
----
+## Key Files
 
-## 🔄 Continuous Improvement
+- `AGENTS.md`: repo operating contract
+- `docs/CODEX-STATE.md`: current autonomous truth
+- `scripts/verify-repo-contract.ps1`: repo-contract verifier
+- `monitoring/runtime-routes.txt`: runtime route contract
+- `smoke.ps1`: runtime smoke and header checks
+- `nginx.conf`: runtime routing and security headers
+- `netlify.toml`: secondary deploy surface aligned to `web/dist`
 
-### CI/CD Pipeline
+## Deployment Note
 
-The project includes GitHub Actions workflows:
+This repo still contains live-server deployment and monitoring scripts such as `scripts/deploy.sh`
+and `scripts/health-check.sh`. They are operational surfaces, not the primary readiness proof lane.
 
-1. **CI/CD Pipeline** (`.github/workflows/ci-cd.yml`)
-   - Runs on every push to main/develop
-  - Performs the stable verify lane (`clean` + `type-check` + `build`)
-   - Security scans with npm audit
-   - Performance budget checks with Lighthouse
+If you need live operational guidance, use:
 
-2. **Dependency Updates** (`.github/workflows/dependency-update.yml`)
-   - Runs weekly
-   - Automatically checks for outdated packages
-   - Creates PRs for updates
-   - Security vulnerability scanning
+- `docs/RUNBOOK.md` for ops context
+- `scripts/deploy.sh` for deployment workflow
 
-### Monitoring
+Do not use the live Unraid host as proof that repo changes are correct.
 
-**Health Check Script:**
-```bash
-# Run manually
-./scripts/health-check.sh
+## Contribution Workflow
 
-# Or set up cron (on Unraid server)
-*/5 * * * * /mnt/docker/ulrich-energy-auditing/scripts/health-check.sh
-```
+1. Make changes in `web/`, repo-contract docs, or readiness scripts.
+2. Run `powershell -ExecutionPolicy Bypass -File .\scripts\verify-repo-contract.ps1`.
+3. Run `npm --prefix web run verify`.
+4. Review the diff before commit or PR creation.
 
-Monitors:
-- HTTP response codes
-- Response times
-- Container status
-- Disk space
-- Weekly Lighthouse scores
+## Archive Note
 
-### Content Updates
-
-Use the helper script for content changes:
-
-```bash
-# Update statistics
-./scripts/content-update.sh update-stats
-
-# Update contact information
-./scripts/content-update.sh update-contact
-
-# Verify changes before deploying
-./scripts/content-update.sh verify
-
-# Deploy changes
-./scripts/content-update.sh deploy
-```
-
----
-
-## 🧪 Testing & Quality
-
-### Code Quality
-
-```bash
-# TypeScript type checking
-npx tsc --noEmit
-
-# ESLint
-npx eslint src --ext .ts,.tsx
-
-# Formatting
-npx prettier --check "src/**/*.{ts,tsx,css}"
-
-# Fix formatting
-npx prettier --write "src/**/*.{ts,tsx,css}"
-```
-
-### Performance Budget
-
-| Metric | Target |
-|--------|--------|
-| Lighthouse Performance | > 90 |
-| First Contentful Paint | < 1.8s |
-| Largest Contentful Paint | < 2.5s |
-| Cumulative Layout Shift | < 0.1 |
-
----
-
-## 📊 Monitoring & Alerts
-
-### Log Locations
-
-| Log | Location |
-|-----|----------|
-| Health Checks | `/var/log/uea-health.log` (on Unraid) |
-| Container Logs | `docker logs ulrich-energy-website` |
-| Nginx Access | Inside container: `/var/log/nginx/access.log` |
-| Nginx Errors | Inside container: `/var/log/nginx/error.log` |
-
-### Viewing Logs
-
-```bash
-# Health check logs (on Unraid)
-tail -f /var/log/uea-health.log
-
-# Container logs
-docker logs ulrich-energy-website -f
-
-# Nginx error log
-docker exec ulrich-energy-website tail -f /var/log/nginx/error.log
-```
-
----
-
-## 🔧 Maintenance
-
-### Weekly Tasks
-
-- [ ] Review health check logs
-- [ ] Check for failed deployments
-- [ ] Verify backups exist
-- [ ] Monitor performance metrics
-
-### Monthly Tasks
-
-- [ ] Run full Lighthouse audit
-- [ ] Rotate logs if needed
-- [ ] Review security scan results
-- [ ] Update content if needed
-
-### Quarterly Tasks
-
-- [ ] Major dependency review
-- [ ] Content audit
-- [ ] SEO review
-- [ ] Disaster recovery test
-
----
-
-## 🆘 Troubleshooting
-
-### Common Issues
-
-**403 Forbidden:**
-```bash
-ssh root@192.168.1.203
-chmod -R 755 /mnt/docker/ulrich-energy-website/
-docker restart ulrich-energy-website
-```
-
-**404 on pages:**
-- Ensure `nginx.conf` has `try_files $uri $uri.html $uri/ =404;`
-
-**Container won't start:**
-```bash
-docker logs ulrich-energy-website
-docker restart ulrich-energy-website
-```
-
-See [docs/RUNBOOK.md](docs/RUNBOOK.md) for complete troubleshooting guide.
-
----
-
-## 📝 Content Guidelines
-
-### Writing for Builders
-
-- **Tone:** Professional, confident, builder-focused
-- **Focus:** Benefits (time saved, money earned) not just features
-- **CTAs:** Clear, action-oriented ("Discuss Your Community")
-- **Evidence:** Stats, certifications, partnerships
-
-### SEO Keywords
-
-- Primary: "HERS rater Twin Cities"
-- Secondary: "45L tax credit Minnesota", "ENERGY STAR certification"
-- Long-tail: "blower door testing Minneapolis"
-
----
-
-## 🤝 Contributing
-
-### Workflow
-
-1. Create feature branch: `git checkout -b feature/name`
-2. Make changes
-3. Run repo proof: `powershell -ExecutionPolicy Bypass -File .\scripts\verify-repo-contract.ps1`
-4. Run app proof: `npm --prefix web run verify`
-5. Create PR to `develop` branch
-6. After review, merge according to the current release process; do not assume GitHub merge implies production deployment.
-
-### Commit Messages
-
-Follow conventional commits:
-- `feat:` New feature
-- `fix:` Bug fix
-- `docs:` Documentation
-- `style:` Formatting
-- `refactor:` Code restructuring
-- `chore:` Maintenance
-
----
-
-## 📄 License
-
-Copyright © 2024 Ulrich Energy Auditing. All rights reserved.
-
----
-
-## 📞 Support
-
-- **Technical Issues:** Check [docs/RUNBOOK.md](docs/RUNBOOK.md)
-- **Website Down:** Call Shaun (952) 240-4369
-- **Content Updates:** Use `./scripts/content-update.sh`
-
----
-
-*Built with ❤️ for Twin Cities builders*
+Older documents such as `PROJECT-COMPLETION-SUMMARY.md` record historical completion state and may
+overstate readiness or describe retired proof surfaces. Prefer `AGENTS.md` and
+`docs/CODEX-STATE.md` when they disagree.

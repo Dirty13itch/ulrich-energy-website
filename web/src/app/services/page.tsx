@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 const volumeBenefits = [
   {
     title: "Streamlined Scheduling",
-    description: "Block scheduling for entire communities—we handle 50+ homes per month",
+    description: "Block scheduling for entire communities - we handle 50+ homes per month",
   },
   {
     title: "Consistent Inspector Assignment",
@@ -54,7 +54,6 @@ export default function ServicesPage() {
       <Navbar />
 
       <main className="flex-1">
-        {/* Hero Section */}
         <section className="relative bg-gradient-to-br from-[#214293] to-[#0f2654] py-20 lg:py-28">
           <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,_#90C050_0%,_transparent_50%)]" />
@@ -69,15 +68,15 @@ export default function ServicesPage() {
                 <span className="text-[#90C050]">Volume Builders</span>
               </h1>
               <p className="mt-6 text-lg leading-relaxed text-[#DDE9FF]">
-                We specialize in new construction partnerships—testing homes in groups, 
-                not one-offs. From pre-drywall to final inspection, we help Twin Cities 
-                builders navigate codes, certifications, and incentives efficiently.
+                We specialize in new construction partnerships - testing homes in groups, not
+                one-offs. From pre-drywall to final inspection, we help Twin Cities builders
+                navigate codes, certifications, and incentives efficiently.
               </p>
-              <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="mt-8 flex flex-col gap-4 justify-center sm:flex-row">
                 <Button
                   asChild
                   size="lg"
-                  className="bg-[#90C050] text-[#0f2654] hover:bg-[#7db043] font-semibold"
+                  className="bg-[#90C050] font-semibold text-[#0f2654] hover:bg-[#7db043]"
                 >
                   <Link href="/contact">
                     <Phone className="mr-2 h-5 w-5" aria-hidden="true" />
@@ -89,15 +88,12 @@ export default function ServicesPage() {
           </div>
         </section>
 
-        {/* Builder Partnership Benefits */}
-        <section className="py-16 lg:py-20 bg-white">
+        <section className="bg-white py-16 lg:py-20">
           <div className="container-site">
-            <div className="mx-auto max-w-4xl text-center mb-12">
-              <h2 className="text-3xl font-bold text-[#0f2654]">
-                Why Builders Partner With Us
-              </h2>
+            <div className="mx-auto mb-12 max-w-4xl text-center">
+              <h2 className="text-3xl font-bold text-[#0f2654]">Why Builders Partner With Us</h2>
               <p className="mt-4 text-lg text-[#4a4a4a]">
-                We understand production construction. Our systems are built for volume, 
+                We understand production construction. Our systems are built for volume,
                 consistency, and keeping your projects on schedule.
               </p>
             </div>
@@ -106,7 +102,7 @@ export default function ServicesPage() {
               {volumeBenefits.map((benefit) => (
                 <Card key={benefit.title} className="text-center">
                   <CardContent className="pt-6">
-                    <h3 className="font-semibold text-[#0f2654] mb-2">{benefit.title}</h3>
+                    <h3 className="mb-2 font-semibold text-[#0f2654]">{benefit.title}</h3>
                     <p className="text-sm text-[#4a4a4a]">{benefit.description}</p>
                   </CardContent>
                 </Card>
@@ -115,12 +111,11 @@ export default function ServicesPage() {
           </div>
         </section>
 
-        {/* Single Family Section */}
-        <section id="single-family" className="py-16 lg:py-20 bg-[#FEFFF8]">
+        <section id="single-family" className="bg-[#FEFFF8] py-16 lg:py-20">
           <div className="container-site">
             <div className="mx-auto max-w-6xl">
-              <div className="flex items-center gap-4 mb-8">
-                <div className="p-3 bg-[#214293] rounded-xl">
+              <div className="mb-8 flex items-center gap-4">
+                <div className="rounded-xl bg-[#214293] p-3">
                   <Home className="h-8 w-8 text-[#90C050]" aria-hidden="true" />
                 </div>
                 <div>
@@ -133,60 +128,64 @@ export default function ServicesPage() {
                 </div>
               </div>
 
-              <p className="text-lg text-[#4a4a4a] mb-10 max-w-3xl">
-                Complete energy inspection services for detached single-family new construction. 
-                From production communities to custom builds, we handle code compliance, 
-                certifications, and tax credit documentation.
+              <p className="mb-10 max-w-3xl text-lg text-[#4a4a4a]">
+                Complete energy inspection services for detached single-family new construction. From
+                production communities to custom builds, we handle code compliance, certifications,
+                and tax credit documentation.
               </p>
 
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-12">
-                {/* HERS Rating */}
+              <div className="mb-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 <Card className="lg:col-span-2">
                   <CardHeader>
                     <CardIcon>
                       <BarChart3 className="h-6 w-6 text-[#214293]" aria-hidden="true" />
                     </CardIcon>
                     <CardTitle>HERS Rating Field Services</CardTitle>
-                    <CardDescription>The foundation of energy efficiency verification</CardDescription>
+                    <CardDescription>
+                      The foundation of energy efficiency verification
+                    </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <p className="text-[#4a4a4a]">
-                      HERS (Home Energy Rating System) is the national standard for measuring home energy efficiency. 
-                      Think of it as the MPG rating for homes. Minnesota's average HERS score is 49—
-                      <strong>51% more efficient than a standard code-built home</strong>.
+                      HERS (Home Energy Rating System) is the national standard for measuring home
+                      energy efficiency. Think of it as the MPG rating for homes. Minnesota's
+                      average HERS score is 49 - <strong>51% more efficient than a standard
+                      code-built home</strong>.
                     </p>
-                    <div className="grid sm:grid-cols-2 gap-4">
-                      <div className="bg-[#ECFFCF] p-4 rounded-lg">
-                        <h4 className="font-semibold text-[#0f2654] mb-2">What We Do</h4>
-                        <ul className="text-sm text-[#4a4a4a] space-y-1">
-                          <li>• Pre-drywall thermal enclosure inspection</li>
-                          <li>• Blower door testing (ACH50)</li>
-                          <li>• Duct leakage testing (CFM25)</li>
-                          <li>• Insulation grading (Grade I/II/III)</li>
-                          <li>• HVAC system verification</li>
-                          <li>• Final HERS rating documentation</li>
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="rounded-lg bg-[#ECFFCF] p-4">
+                        <h4 className="mb-2 font-semibold text-[#0f2654]">What We Do</h4>
+                        <ul className="space-y-1 text-sm text-[#4a4a4a]">
+                          <li>- Pre-drywall thermal enclosure inspection</li>
+                          <li>- Blower door testing (ACH50)</li>
+                          <li>- Duct leakage testing (CFM25)</li>
+                          <li>- Insulation grading (Grade I/II/III)</li>
+                          <li>- HVAC system verification</li>
+                          <li>- Final HERS rating documentation</li>
                         </ul>
                       </div>
-                      <div className="bg-[#DDE9FF] p-4 rounded-lg">
-                        <h4 className="font-semibold text-[#0f2654] mb-2">Why It Matters</h4>
-                        <ul className="text-sm text-[#4a4a4a] space-y-1">
-                          <li>• Required for ENERGY STAR & ZERH</li>
-                          <li>• Qualifies for 45L tax credits</li>
-                          <li>• Minnesota Green Path requirement</li>
-                          <li>• HERS scores appear in MLS listings</li>
-                          <li>• Homes sell for 2.7% more (Freddie Mac)</li>
-                          <li>• Consumer recognition & marketing</li>
+                      <div className="rounded-lg bg-[#DDE9FF] p-4">
+                        <h4 className="mb-2 font-semibold text-[#0f2654]">Why It Matters</h4>
+                        <ul className="space-y-1 text-sm text-[#4a4a4a]">
+                          <li>- Required for ENERGY STAR & ZERH</li>
+                          <li>- Qualifies for 45L tax credits</li>
+                          <li>- Minnesota Green Path requirement</li>
+                          <li>- HERS scores appear in MLS listings</li>
+                          <li>- Homes sell for 2.7% more (Freddie Mac)</li>
+                          <li>- Consumer recognition & marketing</li>
                         </ul>
                       </div>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-[#737373]">
                       <Award className="h-4 w-4 text-[#90C050]" aria-hidden="true" />
-                      <span>RESNET-certified Rating Field Inspectors | Partnership with Building Knowledge (HERS 1998-163)</span>
+                      <span>
+                        RESNET-certified Rating Field Inspectors | Partnership with Building
+                        Knowledge (HERS 1998-163)
+                      </span>
                     </div>
                   </CardContent>
                 </Card>
 
-                {/* Blower Door */}
                 <Card>
                   <CardHeader>
                     <CardIcon>
@@ -196,30 +195,30 @@ export default function ServicesPage() {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <p className="text-sm text-[#4a4a4a]">
-                      Measures air leakage (ACH50) to verify airtight construction. 
-                      Required by Minnesota code and all certification programs.
+                      Measures air leakage (ACH50) to verify airtight construction. Required by
+                      Minnesota code and all certification programs.
                     </p>
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span className="text-[#4a4a4a]">IECC 2021 Code:</span>
-                        <span className="font-semibold text-[#0f2654]">≤3.0 ACH50</span>
+                        <span className="font-semibold text-[#0f2654]">&lt;=3.0 ACH50</span>
                       </div>
                       <div className="flex justify-between text-sm">
                         <span className="text-[#4a4a4a]">ENERGY STAR v3.2:</span>
-                        <span className="font-semibold text-[#0f2654]">≤3.0 ACH50</span>
+                        <span className="font-semibold text-[#0f2654]">&lt;=3.0 ACH50</span>
                       </div>
                       <div className="flex justify-between text-sm">
                         <span className="text-[#4a4a4a]">ZERH Climate Zone 6:</span>
-                        <span className="font-semibold text-[#0f2654]">≤3.0 ACH50</span>
+                        <span className="font-semibold text-[#0f2654]">&lt;=3.0 ACH50</span>
                       </div>
                     </div>
-                    <div className="bg-[#ECFFCF] p-3 rounded text-sm">
-                      <strong>When tested:</strong> Pre-drywall (rough) and Final (post-construction)
+                    <div className="rounded bg-[#ECFFCF] p-3 text-sm">
+                      <strong>When tested:</strong> Pre-drywall (rough) and Final
+                      (post-construction)
                     </div>
                   </CardContent>
                 </Card>
 
-                {/* Duct Leakage */}
                 <Card>
                   <CardHeader>
                     <CardIcon>
@@ -229,26 +228,25 @@ export default function ServicesPage() {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <p className="text-sm text-[#4a4a4a]">
-                      IECC 2021 requires <strong>all ducts to be tested</strong>—no exemptions. 
-                      We measure leakage to outside (CFM25) and total system leakage.
+                      IECC 2021 requires <strong>all ducts to be tested</strong> - no exemptions. We
+                      measure leakage to outside (CFM25) and total system leakage.
                     </p>
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span className="text-[#4a4a4a]">Ducts Outside Envelope:</span>
-                        <span className="font-semibold text-[#0f2654]">≤4 CFM25/100 ft²</span>
+                        <span className="font-semibold text-[#0f2654]">&lt;=4 CFM25/100 sq ft</span>
                       </div>
                       <div className="flex justify-between text-sm">
                         <span className="text-[#4a4a4a]">Ducts Inside Envelope:</span>
-                        <span className="font-semibold text-[#0f2654]">≤8 CFM25/100 ft²</span>
+                        <span className="font-semibold text-[#0f2654]">&lt;=8 CFM25/100 sq ft</span>
                       </div>
                     </div>
-                    <div className="bg-[#ECFFCF] p-3 rounded text-sm">
+                    <div className="rounded bg-[#ECFFCF] p-3 text-sm">
                       <strong>Pro tip:</strong> Tighter ducts = better efficiency & comfort
                     </div>
                   </CardContent>
                 </Card>
 
-                {/* Insulation Grading */}
                 <Card>
                   <CardHeader>
                     <CardIcon>
@@ -258,21 +256,28 @@ export default function ServicesPage() {
                   </CardHeader>
                   <CardContent className="space-y-3">
                     <p className="text-sm text-[#4a4a4a]">
-                      RESNET Grade I, II, or III assessment during pre-drywall inspection. 
-                      Determines if insulation meets prescriptive code or certification requirements.
+                      RESNET Grade I, II, or III assessment during pre-drywall inspection.
+                      Determines if insulation meets prescriptive code or certification
+                      requirements.
                     </p>
                     <div className="space-y-1 text-sm">
                       <div className="flex items-center gap-2">
                         <CheckCircle2 className="h-4 w-4 text-[#90C050]" aria-hidden="true" />
-                        <span><strong>Grade I:</strong> Full contact, no gaps</span>
+                        <span>
+                          <strong>Grade I:</strong> Full contact, no gaps
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <CheckCircle2 className="h-4 w-4 text-[#f59e0b]" aria-hidden="true" />
-                        <span><strong>Grade II:</strong> Minor imperfections</span>
+                        <span>
+                          <strong>Grade II:</strong> Minor imperfections
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <CheckCircle2 className="h-4 w-4 text-[#ef4444]" aria-hidden="true" />
-                        <span><strong>Grade III:</strong> Substantial gaps</span>
+                        <span>
+                          <strong>Grade III:</strong> Substantial gaps
+                        </span>
                       </div>
                     </div>
                     <p className="text-xs text-[#737373]">
@@ -282,9 +287,8 @@ export default function ServicesPage() {
                 </Card>
               </div>
 
-              {/* Certifications */}
-              <div className="bg-white rounded-2xl p-8 border border-[#DDE9FF]">
-                <h3 className="text-2xl font-bold text-[#0f2654] mb-6 flex items-center gap-3">
+              <div className="rounded-2xl border border-[#DDE9FF] bg-white p-8">
+                <h3 className="mb-6 flex items-center gap-3 text-2xl font-bold text-[#0f2654]">
                   <Award className="h-7 w-7 text-[#90C050]" aria-hidden="true" />
                   Single Family Certifications & Programs
                 </h3>
@@ -299,15 +303,17 @@ export default function ServicesPage() {
                         </span>
                       </div>
                       <CardDescription>
-                        EPA's trusted efficiency label—15%+ better than code
+                        EPA's trusted efficiency label - 15%+ better than code
                       </CardDescription>
                     </CardHeader>
-                    <CardContent className="pt-4 space-y-3">
-                      <div className="text-sm text-[#4a4a4a] space-y-1">
-                        <p><strong>Key Requirements:</strong></p>
-                        <ul className="list-disc list-inside space-y-1">
-                          <li>≤3.0 ACH50 blower door</li>
-                          <li>≤4% duct leakage to outside</li>
+                    <CardContent className="space-y-3 pt-4">
+                      <div className="space-y-1 text-sm text-[#4a4a4a]">
+                        <p>
+                          <strong>Key Requirements:</strong>
+                        </p>
+                        <ul className="list-inside list-disc space-y-1">
+                          <li>&lt;=3.0 ACH50 blower door</li>
+                          <li>&lt;=4% duct leakage to outside</li>
                           <li>Grade I insulation</li>
                           <li>HVAC properly sized (Manual J)</li>
                           <li>High-efficiency water heater</li>
@@ -317,7 +323,9 @@ export default function ServicesPage() {
                       <div className="border-t border-[#DDE9FF] pt-3">
                         <div className="flex items-center gap-2 text-sm">
                           <DollarSign className="h-4 w-4 text-[#90C050]" aria-hidden="true" />
-                          <span className="font-semibold text-[#0f2654]">Qualifies for $2,500 45L tax credit</span>
+                          <span className="font-semibold text-[#0f2654]">
+                            Qualifies for $2,500 45L tax credit
+                          </span>
                         </div>
                       </div>
                     </CardContent>
@@ -332,13 +340,15 @@ export default function ServicesPage() {
                         </span>
                       </div>
                       <CardDescription>
-                        DOE Zero Energy Ready Home—"so efficient, solar could offset all energy use"
+                        DOE Zero Energy Ready Home - "so efficient, solar could offset all energy use"
                       </CardDescription>
                     </CardHeader>
-                    <CardContent className="pt-4 space-y-3">
-                      <div className="text-sm text-[#4a4a4a] space-y-1">
-                        <p><strong>Everything in ENERGY STAR PLUS:</strong></p>
-                        <ul className="list-disc list-inside space-y-1">
+                    <CardContent className="space-y-3 pt-4">
+                      <div className="space-y-1 text-sm text-[#4a4a4a]">
+                        <p>
+                          <strong>Everything in ENERGY STAR PLUS:</strong>
+                        </p>
+                        <ul className="list-inside list-disc space-y-1">
                           <li>Enhanced thermal envelope (exceeds 2015 IECC)</li>
                           <li>HRV/ERV required (Climate Zone 6)</li>
                           <li>Ducts in conditioned space (or optimized)</li>
@@ -350,41 +360,58 @@ export default function ServicesPage() {
                       <div className="border-t border-[#DDE9FF] pt-3">
                         <div className="flex items-center gap-2 text-sm">
                           <DollarSign className="h-4 w-4 text-[#90C050]" aria-hidden="true" />
-                          <span className="font-semibold text-[#0f2654]">Qualifies for $5,000 45L tax credit</span>
+                          <span className="font-semibold text-[#0f2654]">
+                            Qualifies for $5,000 45L tax credit
+                          </span>
                         </div>
                       </div>
                     </CardContent>
                   </Card>
                 </div>
 
-                {/* Minnesota Green Path */}
-                <div className="mt-6 bg-[#FEFFF8] rounded-xl p-6 border border-[#90C050]">
+                <div className="mt-6 rounded-xl border border-[#90C050] bg-[#FEFFF8] p-6">
                   <div className="flex items-start gap-4">
-                    <div className="p-3 bg-[#90C050] rounded-lg">
+                    <div className="rounded-lg bg-[#90C050] p-3">
                       <Leaf className="h-6 w-6 text-[#0f2654]" aria-hidden="true" />
                     </div>
                     <div className="flex-1">
-                      <h4 className="text-xl font-bold text-[#0f2654] mb-2">Minnesota Green Path</h4>
-                      <p className="text-[#4a4a4a] mb-4">
-                        Minnesota's leading green building program from Housing First Minnesota. 
-                        <strong>70% of Parade of Homes entries</strong> now participate.
+                      <h4 className="mb-2 text-xl font-bold text-[#0f2654]">
+                        Minnesota Green Path
+                      </h4>
+                      <p className="mb-4 text-[#4a4a4a]">
+                        Minnesota's leading green building program from Housing First Minnesota.
+                        <strong> 70% of Parade of Homes entries</strong> now participate.
                       </p>
-                      
-                      <div className="grid sm:grid-cols-3 gap-4">
-                        <div className="bg-white p-4 rounded-lg border border-[#DDE9FF]">
-                          <span className="inline-block mb-2 rounded bg-[#f5f5f5] px-2 py-1 text-xs font-semibold text-[#4a4a4a]">Base Level</span>
+
+                      <div className="grid gap-4 sm:grid-cols-3">
+                        <div className="rounded-lg border border-[#DDE9FF] bg-white p-4">
+                          <span className="mb-2 inline-block rounded bg-[#f5f5f5] px-2 py-1 text-xs font-semibold text-[#4a4a4a]">
+                            Base Level
+                          </span>
                           <h5 className="font-semibold text-[#0f2654]">Energy Tested</h5>
-                          <p className="text-sm text-[#4a4a4a] mt-1">HERS rating + blower door test. FREE for Housing First Minnesota members.</p>
+                          <p className="mt-1 text-sm text-[#4a4a4a]">
+                            HERS rating + blower door test. FREE for Housing First Minnesota members.
+                          </p>
                         </div>
-                        <div className="bg-white p-4 rounded-lg border border-[#90C050]">
-                          <span className="inline-block mb-2 rounded bg-[#ECFFCF] px-2 py-1 text-xs font-semibold text-[#0f2654]">Advanced</span>
+                        <div className="rounded-lg border border-[#90C050] bg-white p-4">
+                          <span className="mb-2 inline-block rounded bg-[#ECFFCF] px-2 py-1 text-xs font-semibold text-[#0f2654]">
+                            Advanced
+                          </span>
                           <h5 className="font-semibold text-[#0f2654]">Advanced Certified</h5>
-                          <p className="text-sm text-[#4a4a4a] mt-1">HERS ≤47 + 20 points across 3+ categories. $79 fee (waived by Xcel Energy).</p>
+                          <p className="mt-1 text-sm text-[#4a4a4a]">
+                            HERS &lt;=47 + 20 points across 3+ categories. $79 fee (waived by Xcel
+                            Energy).
+                          </p>
                         </div>
-                        <div className="bg-white p-4 rounded-lg border border-[#214293]">
-                          <span className="inline-block mb-2 rounded bg-[#DDE9FF] px-2 py-1 text-xs font-semibold text-[#0f2654]">Master</span>
+                        <div className="rounded-lg border border-[#214293] bg-white p-4">
+                          <span className="mb-2 inline-block rounded bg-[#DDE9FF] px-2 py-1 text-xs font-semibold text-[#0f2654]">
+                            Master
+                          </span>
                           <h5 className="font-semibold text-[#0f2654]">Master Certified</h5>
-                          <p className="text-sm text-[#4a4a4a] mt-1">HERS ≤45 + 50 points across 4+ categories. Premium marketing designation.</p>
+                          <p className="mt-1 text-sm text-[#4a4a4a]">
+                            HERS &lt;=45 + 50 points across 4+ categories. Premium marketing
+                            designation.
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -395,21 +422,20 @@ export default function ServicesPage() {
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-16 lg:py-20 bg-gradient-to-br from-[#214293] to-[#0f2654]">
+        <section className="bg-gradient-to-br from-[#214293] to-[#0f2654] py-16 lg:py-20">
           <div className="container-site">
             <div className="mx-auto max-w-4xl text-center">
-              <h2 className="text-3xl font-bold text-white mb-4">
+              <h2 className="mb-4 text-3xl font-bold text-white">
                 Ready to Partner on Your Next Community?
               </h2>
-              <p className="text-lg text-[#DDE9FF] mb-8">
-                Whether you're building 10 homes or 100, we have the capacity, expertise, 
-                and systems to support your project.
+              <p className="mb-8 text-lg text-[#DDE9FF]">
+                Whether you're building 10 homes or 100, we have the capacity, expertise, and
+                systems to support your project.
               </p>
               <Button
                 asChild
                 size="lg"
-                className="bg-[#90C050] text-[#0f2654] hover:bg-[#7db043] font-semibold"
+                className="bg-[#90C050] font-semibold text-[#0f2654] hover:bg-[#7db043]"
               >
                 <Link href="/contact">
                   <Phone className="mr-2 h-5 w-5" aria-hidden="true" />
