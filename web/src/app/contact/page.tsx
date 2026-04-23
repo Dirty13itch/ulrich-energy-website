@@ -18,11 +18,21 @@ import {
 } from "@/components/ui/card";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { getCanonicalUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Contact Us | Ulrich Energy Auditing",
   description:
     "Contact Ulrich Energy Auditing for HERS rating services, ENERGY STAR certification, and energy inspections. Serving Twin Cities builders since 2015.",
+  alternates: {
+    canonical: getCanonicalUrl("/contact"),
+  },
+  openGraph: {
+    title: "Contact Us | Ulrich Energy Auditing",
+    description:
+      "Contact Ulrich Energy Auditing for HERS rating services, ENERGY STAR certification, and energy inspections. Serving Twin Cities builders since 2015.",
+    url: getCanonicalUrl("/contact"),
+  },
 };
 
 const contactInfo = [

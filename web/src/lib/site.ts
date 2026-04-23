@@ -16,3 +16,8 @@ export function getSiteUrl(): string {
 export function getSiteUrlObject(): URL {
   return new URL(getSiteUrl());
 }
+
+export function getCanonicalUrl(path: string = "/"): string {
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return new URL(normalizedPath, getSiteUrlObject()).toString();
+}

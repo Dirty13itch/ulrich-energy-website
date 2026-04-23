@@ -22,11 +22,21 @@ import {
 } from "@/components/ui/card";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { getCanonicalUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Services | Ulrich Energy Auditing",
   description:
     "Comprehensive energy inspection services for Twin Cities builders. HERS ratings, ENERGY STAR certification, IECC compliance, and 45L tax credit documentation for single-family and multi-family new construction.",
+  alternates: {
+    canonical: getCanonicalUrl("/services"),
+  },
+  openGraph: {
+    title: "Services | Ulrich Energy Auditing",
+    description:
+      "Comprehensive energy inspection services for Twin Cities builders. HERS ratings, ENERGY STAR certification, IECC compliance, and 45L tax credit documentation for single-family and multi-family new construction.",
+    url: getCanonicalUrl("/services"),
+  },
 };
 
 const volumeBenefits = [
