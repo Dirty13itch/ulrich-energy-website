@@ -3,9 +3,6 @@ name: CI/CD Pipeline
 on:
   push:
     branches: [main, develop]
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
   pull_request:
     branches: [main, develop]
   schedule:
@@ -17,10 +14,10 @@ env:
 
 jobs:
   # ===========================================
-  # Test & Build
+  # Stable Proof
   # ===========================================
   test:
-    name: Test & Build
+    name: Stable Proof
     runs-on: ubuntu-latest
     
     steps:
@@ -38,17 +35,13 @@ jobs:
         working-directory: ./web
         run: npm ci
 
-      - name: Run linter
-        working-directory: ./web
-        run: npm run lint
+      - name: Verify repo contract
+        shell: pwsh
+        run: pwsh -ExecutionPolicy Bypass -File .\scripts\verify-repo-contract.ps1
 
-      - name: TypeScript type checking
+      - name: Run stable verify lane
         working-directory: ./web
-        run: npm run type-check
-
-      - name: Build Next.js
-        working-directory: ./web
-        run: npm run build
+        run: npm run verify
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4

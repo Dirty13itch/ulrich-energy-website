@@ -57,6 +57,7 @@ export function Navbar() {
             className="md:hidden p-2"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle menu"
+            data-mobile-menu
           >
             {isOpen ? (
               <X className="h-6 w-6 text-[#214293]" />

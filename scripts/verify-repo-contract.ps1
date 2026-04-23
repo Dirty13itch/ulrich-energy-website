@@ -1,0 +1,86 @@
+[CmdletBinding()]
+param()
+
+$ErrorActionPreference = 'Stop'
+
+$repoRoot = Split-Path -Parent $PSScriptRoot
+$checks = @()
+
+function Add-Check {
+    param(
+        [string]$Name,
+        [bool]$Passed,
+        [string]$Detail
+    )
+
+    $script:checks += [pscustomobject]@{
+        name = $Name
+        passed = $Passed
+        detail = $Detail
+    }
+}
+
+function Read-Text {
+    param([string]$Path)
+    Get-Content -Raw -LiteralPath (Join-Path $repoRoot $Path)
+}
+
+function Assert-Match {
+    param(
+        [string]$Name,
+        [string]$Path,
+        [string]$Pattern,
+        [string]$Detail
+    )
+
+    $content = Read-Text -Path $Path
+    $matches = [regex]::IsMatch($content, $Pattern, [System.Text.RegularExpressions.RegexOptions]::Multiline)
+    Add-Check -Name $Name -Passed $matches -Detail $Detail
+}
+
+Add-Check -Name 'AGENTS.md present' -Passed (Test-Path (Join-Path $repoRoot 'AGENTS.md')) -Detail 'Repo-local agent contract exists.'
+Add-Check -Name 'docs/CODEX-STATE.md present' -Passed (Test-Path (Join-Path $repoRoot 'docs/CODEX-STATE.md')) -Detail 'Repo-local Codex state exists.'
+Add-Check -Name 'monitoring/lighthouse-ci.js present' -Passed (Test-Path (Join-Path $repoRoot 'monitoring/lighthouse-ci.js')) -Detail 'Workflow Lighthouse config exists.'
+Add-Check -Name 'Public favicon.svg present' -Passed (Test-Path (Join-Path $repoRoot 'web/public/favicon.svg')) -Detail 'Manifest and metadata icon surface must point at a real favicon asset.'
+Add-Check -Name 'Public robots.txt is not hand-maintained' -Passed (-not (Test-Path (Join-Path $repoRoot 'web/public/robots.txt'))) -Detail 'robots.txt should come from web/src/app/robots.ts.'
+Add-Check -Name 'Public sitemap.xml is not hand-maintained' -Passed (-not (Test-Path (Join-Path $repoRoot 'web/public/sitemap.xml'))) -Detail 'sitemap.xml should come from web/src/app/sitemap.ts.'
+
+Assert-Match -Name 'Next export uses dist/' -Path 'web/next.config.ts' -Pattern "distDir:\s*'dist'" -Detail 'Next.js export stays in web/dist/.'
+Assert-Match -Name 'App metadata centralizes site URL' -Path 'web/src/app/layout.tsx' -Pattern 'getSiteUrl(Object)?\(' -Detail 'App metadata reads the canonical site URL from the shared helper.'
+Assert-Match -Name 'App metadata exposes favicon asset' -Path 'web/src/app/layout.tsx' -Pattern 'icon:\s*"/favicon\.svg"' -Detail 'App metadata points at the generated favicon asset.'
+Assert-Match -Name 'Site URL helper defaults to public origin' -Path 'web/src/lib/site.ts' -Pattern 'https://ulrichenergyauditing\.com' -Detail 'Shared site-url helper defaults to the public canonical origin.'
+Assert-Match -Name 'Site URL helper can compose canonical URLs' -Path 'web/src/lib/site.ts' -Pattern 'function getCanonicalUrl\(path: string = "/"\): string' -Detail 'Shared site-url helper can build self-canonical page URLs.'
+Assert-Match -Name 'Manifest references real favicon asset' -Path 'web/public/manifest.json' -Pattern '"src":\s*"/favicon\.svg"' -Detail 'Web app manifest points at a real favicon asset.'
+Assert-Match -Name 'Robots route is generated from app metadata' -Path 'web/src/app/robots.ts' -Pattern 'sitemap:\s*`\$\{getSiteUrl\(\)\}/sitemap\.xml`' -Detail 'robots.txt is generated from the shared site URL contract.'
+Assert-Match -Name 'Sitemap route is generated from app metadata' -Path 'web/src/app/sitemap.ts' -Pattern 'MetadataRoute\.Sitemap' -Detail 'sitemap.xml is generated from app metadata instead of a hand-maintained public file.'
+Assert-Match -Name 'Sitemap output is deterministic' -Path 'web/src/app/sitemap.ts' -Pattern 'canonicalLastModified = new Date\("2026-04-20T00:00:00\.000Z"\)' -Detail 'sitemap.xml uses a stable last-modified timestamp so builds do not churn artifacts.'
+Assert-Match -Name 'About page sets a self-canonical URL' -Path 'web/src/app/about/page.tsx' -Pattern 'canonical:\s*getCanonicalUrl\("/about"\)' -Detail 'About page metadata overrides the root canonical URL.'
+Assert-Match -Name 'Contact page sets a self-canonical URL' -Path 'web/src/app/contact/page.tsx' -Pattern 'canonical:\s*getCanonicalUrl\("/contact"\)' -Detail 'Contact page metadata overrides the root canonical URL.'
+Assert-Match -Name 'Services page sets a self-canonical URL' -Path 'web/src/app/services/page.tsx' -Pattern 'canonical:\s*getCanonicalUrl\("/services"\)' -Detail 'Services page metadata overrides the root canonical URL.'
+Assert-Match -Name 'Docker serves canonical dist path' -Path 'docker-compose.yml' -Pattern '\./web/dist:/usr/share/nginx/html:ro' -Detail 'Docker compose points at web/dist/.'
+Assert-Match -Name 'Deploy script syncs canonical dist path' -Path 'scripts/deploy.sh' -Pattern '\$PROJECT_DIR/web/dist/' -Detail 'Deploy script syncs web/dist/.'
+Assert-Match -Name 'GitHub Actions runs repo contract verifier' -Path '.github/workflows/ci-cd.yml' -Pattern 'pwsh\s+-ExecutionPolicy\s+Bypass\s+-File\s+\.\\scripts\\verify-repo-contract\.ps1' -Detail 'Workflow runs the repo-contract verifier before app proof.'
+Assert-Match -Name 'GitHub Actions runs stable verify lane' -Path '.github/workflows/ci-cd.yml' -Pattern 'working-directory:\s*\./web[\s\S]*npm run verify' -Detail 'Workflow uses the stable verify lane from web/.'
+Assert-Match -Name 'Stable verify lane cleans export artifacts first' -Path 'web/package.json' -Pattern '"verify":\s*"npm run clean && npm run type-check && npm run build"' -Detail 'Stable verify proof rebuilds from a clean export directory.'
+Assert-Match -Name 'GitHub Actions uploads canonical dist path' -Path '.github/workflows/ci-cd.yml' -Pattern 'path:\s*web/dist/' -Detail 'Workflow artifact/deploy path uses web/dist/.'
+Assert-Match -Name 'Netlify publishes canonical dist path' -Path 'netlify.toml' -Pattern 'publish = "web/dist"' -Detail 'Netlify publish path uses web/dist.'
+Assert-Match -Name 'Netlify builds app from source root' -Path 'netlify.toml' -Pattern 'npm --prefix web ci && npm --prefix web run build' -Detail 'Netlify build command runs from web/.'
+Assert-Match -Name 'Netlify exports public site URL' -Path 'netlify.toml' -Pattern 'NEXT_PUBLIC_SITE_URL = "https://ulrichenergyauditing\.com"' -Detail 'Netlify build surface provides the canonical public site URL.'
+Assert-Match -Name 'Nginx error pages resolve to exported artifacts' -Path 'nginx.conf' -Pattern 'error_page 404 /404\.html;\s*error_page 500 502 503 504 /404\.html;' -Detail 'Nginx error-page targets must resolve to an exported artifact that exists after the stable build lane.'
+Assert-Match -Name 'Nginx exposes smoke-required isolation headers' -Path 'nginx.conf' -Pattern 'Cross-Origin-Opener-Policy "same-origin"[\s\S]*Cross-Origin-Resource-Policy "same-origin"' -Detail 'Nginx must emit the COOP and CORP headers that the smoke header contract expects.'
+Assert-Match -Name 'Playwright proof is local' -Path 'web/playwright.config.ts' -Pattern "baseURL:\s*'http://127\.0\.0\.1:3000'" -Detail 'Playwright base URL is local.'
+Assert-Match -Name 'Playwright web server is local' -Path 'web/playwright.config.ts' -Pattern "url:\s*'http://127\.0\.0\.1:3000'" -Detail 'Playwright preview server is local.'
+
+$failed = @($checks | Where-Object { -not $_.passed })
+$result = [pscustomobject]@{
+    ok = ($failed.Count -eq 0)
+    check_count = $checks.Count
+    failed_count = $failed.Count
+    checks = $checks
+}
+
+$result | ConvertTo-Json -Depth 4
+
+if ($failed.Count -gt 0) {
+    exit 1
+}

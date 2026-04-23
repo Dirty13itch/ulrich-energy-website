@@ -23,11 +23,21 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { getCanonicalUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About Us | Ulrich Energy Auditing",
   description:
     "Learn about Ulrich Energy Auditing - Twin Cities energy inspection specialists since 2015. 2,500+ homes inspected, RESNET-certified team, partnership with Building Knowledge.",
+  alternates: {
+    canonical: getCanonicalUrl("/about"),
+  },
+  openGraph: {
+    title: "About Us | Ulrich Energy Auditing",
+    description:
+      "Learn about Ulrich Energy Auditing - Twin Cities energy inspection specialists since 2015. 2,500+ homes inspected, RESNET-certified team, partnership with Building Knowledge.",
+    url: getCanonicalUrl("/about"),
+  },
 };
 
 const stats = [

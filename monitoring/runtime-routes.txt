@@ -6,13 +6,9 @@
 # sitemap coverage, or explicit nginx redirect/health rules.
 
 GET /
-GET /services/
-GET /programs/
-GET /programs/energy-star/
-GET /proof/
-GET /resources/
-GET /get-started/
+GET /about
+GET /services
+GET /contact
 GET /robots.txt
 GET /sitemap.xml
 GET /health
-REDIRECT /contact/ /get-started/

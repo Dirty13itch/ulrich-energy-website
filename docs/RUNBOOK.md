@@ -1,5 +1,15 @@
 # Ulrich Energy Auditing Website - Operations Runbook
 
+## Status
+
+- This file is operational reference only.
+- For autonomous repo work, the source of truth is `AGENTS.md` plus `docs/CODEX-STATE.md`.
+- Stable repo proof is:
+  - `powershell -ExecutionPolicy Bypass -File .\scripts\verify-repo-contract.ps1`
+  - `npm --prefix web run verify`
+- The stable verify lane rebuilds from a clean export directory (`clean` + `type-check` + `build`); do not shorten it when validating repo readiness.
+- Live Unraid procedures below are not the readiness gate for this repo and should only be used when Shaun explicitly wants production-facing operations.
+
 ## Quick Reference
 
 | Item | Value |
@@ -53,6 +63,8 @@ ssh root@192.168.1.203 "cp -r $BACKUP/* /mnt/docker/ulrich-energy-website/ && do
 ---
 
 ## Routine Operations
+
+Operational note: these procedures mutate the live deployment surface. Do not use them as proof for repo readiness work.
 
 ### Deploy New Version
 
@@ -220,6 +232,8 @@ location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2)$ {
 ---
 
 ## Troubleshooting Guide
+
+Repo-readiness note: if the question is "is the repo contract healthy?", use the stable proof commands above before touching any live-server checks in this document.
 
 ### Build Failures
 
